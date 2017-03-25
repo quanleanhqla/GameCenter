@@ -25,7 +25,7 @@ public class GameRoomAdapter extends RecyclerView.Adapter<GameRoomHolder> {
     @Override
     public GameRoomHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View itemView = layoutInflater.inflate(R.layout.item_main, parent, false);
+        View itemView = layoutInflater.inflate(R.layout.item_hot, parent, false);
 
         GameRoomHolder gameRoomHolder = new GameRoomHolder(itemView);
         return gameRoomHolder;

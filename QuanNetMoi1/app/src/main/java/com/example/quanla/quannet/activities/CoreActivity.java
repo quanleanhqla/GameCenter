@@ -50,12 +50,6 @@ public class CoreActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
 
-
-        final int[] ICON = new int[]{
-                R.drawable.ic_thumb_up_white_24px,
-                R.drawable.ic_fiber_new_white_24px
-        };
-
         if (toolbar != null) {
             setSupportActionBar(toolbar);
             getSupportActionBar().setTitle(null);
@@ -100,8 +94,6 @@ public class CoreActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setTabsFromPagerAdapter(adapter);
-        tabLayout.getTabAt(0).setIcon(ICON[0]);
-        tabLayout.getTabAt(1).setIcon(ICON[1]);
     }
 
 

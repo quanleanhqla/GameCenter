@@ -39,6 +39,7 @@
         </android.support.v7.widget.Toolbar>
 
         <FrameLayout
+            android:background="#E0E0E0"
             android:id="@+id/fl_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -48,17 +49,18 @@
                 <android.support.design.widget.TabLayout
                     android:layout_marginRight="6dp"
                     android:layout_marginLeft="6dp"
-                    android:background="@color/guillotine_background_dark"
+                    android:background="#EEEEEE"
                     android:layout_alignParentTop="true"
                     android:id="@+id/tab_layout"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    app:tabSelectedTextColor="#e66d6d"
-                    app:tabTextColor="#FFFFFF"
+                    app:tabSelectedTextColor="@color/selected_item_color"
+                    app:tabTextColor="#000000"
                     >
 
                 </android.support.design.widget.TabLayout>
                 <android.support.v4.view.ViewPager
+
                     android:layout_below="@id/tab_layout"
                     android:id="@+id/view_pager"
                     android:layout_width="match_parent"
