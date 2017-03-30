@@ -1,6 +1,7 @@
 package com.example.quanla.quannet.activities;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -14,8 +15,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.quanla.quannet.R;
+import com.example.quanla.quannet.adapters.CustomInfoAdapter;
 import com.example.quanla.quannet.database.DbContextHot;
 import com.example.quanla.quannet.database.models.GameRoom;
+import com.example.quanla.quannet.events.ActivityReplaceEvent;
 import com.example.quanla.quannet.events.MoveToMap;
 import com.example.quanla.quannet.events.MoveToMapEvent;
 import com.google.android.gms.common.ConnectionResult;
@@ -40,6 +43,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -170,8 +174,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         if (mGoogleApiClient != null) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         }
-
-
         setGGMap();
 
     }
@@ -325,21 +327,24 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     }
 
     public void setGGMap(){
+        Location start = new Location("Start");
+        start.setLatitude(mLatitude);
+        start.setLongitude(mLongitude);
         if(moveToMap==MoveToMap.FROMDETAIL){
-            Log.d(TAG, String.format("%s", gameRoom.toString()));
+
             if(mMap!=null) {
-                mMap.addMarker(new MarkerOptions().position(new LatLng(gameRoom.getLatitude(), gameRoom.getLongitude())).title(gameRoom.getTitle()).draggable(true).visible(true));
+                Location dest = new Location(gameRoom.getTitle());
+                dest.setLatitude(gameRoom.getLatitude());
+                dest.setLongitude(gameRoom.getLongitude());
+                double kilomet = start.distanceTo(dest)/1000;
+                Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(gameRoom.getLatitude(), gameRoom.getLongitude())).title(gameRoom.getTitle()).draggable(true).visible(true));
                 direction(new com.example.quanla.quannet.database.models.GameRoom(gameRoom.getLatitude(), gameRoom.getLongitude()));
+                mMap.setInfoWindowAdapter(new CustomInfoAdapter(this,gameRoom,kilomet));
+                marker.showInfoWindow();
             }
         }
         else if(moveToMap==MoveToMap.FROMNEARME){
-            Location start = new Location("Start");
-            start.setLatitude(mLatitude);
-            start.setLongitude(mLongitude);
-            Log.d(TAG, String.format("%s", mLatitude));
-
             if(mMap!=null) {
-
                 for (com.example.quanla.quannet.database.models.GameRoom l : DbContextHot.instance.getAllRooms()) {
                     Location dest = new Location(l.getTitle());
                     dest.setLatitude(l.getLatitude());
@@ -351,4 +356,9 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             }
         }
     }
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void replace(ActivityReplaceEvent activityReplaceEvent){
+        startActivity(new Intent(MapsActivity.this, DetailActivity.class));
+    }
+
 }

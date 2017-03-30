@@ -1,41 +1,22 @@
 package com.example.quanla.quannet.activities;
 
 import android.content.Intent;
-import android.location.Location;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.quanla.quannet.R;
-import com.example.quanla.quannet.database.models.GameRoom;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.nlopez.smartlocation.OnGeocodingListener;
-import io.nlopez.smartlocation.SmartLocation;
-import io.nlopez.smartlocation.geocoding.utils.LocationAddress;
 
 public class NewActivity extends AppCompatActivity {
 
-    private static final String TAG = "NewActivity";
     @BindView(R.id.ib_photo)
     ImageButton imageButton;
 
@@ -69,22 +50,15 @@ public class NewActivity extends AppCompatActivity {
     @BindView(R.id.edt_detail)
     EditText edtDetail;
 
-    @BindView(R.id.post)
-    Button post;
-    private DatabaseReference databaseReference;
     private Uri uriImage;
-    private String address;
-    private String title;
 
     private static final int GALLERY_REQUEST = 1;
-    private Location location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new);
         ButterKnife.bind(this);
-        databaseReference = FirebaseDatabase.getInstance().getReference();
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,48 +69,6 @@ public class NewActivity extends AppCompatActivity {
                 ll1.setVisibility(View.VISIBLE);
             }
         });
-
-
-
-        post.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                 address = edtAddress.getText().toString();
-                 title = edtTitle.getText().toString();
-                SmartLocation.with(NewActivity.this).geocoding().direct(address, new OnGeocodingListener() {
-                    @Override
-                    public void onLocationResolved(String s, List<LocationAddress> list) {
-                        if (list.size()>0){
-                            location = list.get(0).getLocation();
-                            GameRoom gameRoom = new GameRoom(null,title,address,"good",location.getLatitude(),location.getLongitude());
-                            upNewGameRoom(gameRoom);
-                        }
-
-                    }
-                });
-
-            }
-        });
-    }
-    private void upNewGameRoom(GameRoom gameRoom){
-        databaseReference.child("update").child(gameRoom.getTitle()).setValue(gameRoom).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Log.d(TAG, "onComplete: 123");
-                    Toast.makeText(NewActivity.this,"Đăng lên thành công",Toast.LENGTH_SHORT);
-                    onBackPressed();
-                }
-                else Log.d(TAG, String.format("onComplete: %s", task.getException()));
-
-            }
-        });
-    }
-    private Location geoAddress(String address) {
-        final Location[] location = new Location[1];
-
-        Log.d(TAG, String.format("geoAddress: %s", location[0].toString()));
-        return location[0];
     }
 
     @Override
@@ -148,6 +80,4 @@ public class NewActivity extends AppCompatActivity {
             iv1.setImageURI(uriImage);
         }
     }
-
-
 }

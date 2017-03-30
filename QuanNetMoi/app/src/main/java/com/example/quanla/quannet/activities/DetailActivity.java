@@ -1,12 +1,19 @@
 package com.example.quanla.quannet.activities;
 
+import android.Manifest;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -41,6 +48,8 @@ public class DetailActivity extends AppCompatActivity {
 
     @BindView(R.id.tv_momey)
     TextView tvMoney;
+    @BindView(R.id.bt_call)
+    Button btnCall;
 
 
     PhotoAdapter photoAdapter;
@@ -60,6 +69,12 @@ public class DetailActivity extends AppCompatActivity {
         if (toolbar != null) {
             setSupportActionBar(toolbar);
         }
+        btnCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                call();
+            }
+        });
     }
 
     @Override
@@ -71,7 +86,7 @@ public class DetailActivity extends AppCompatActivity {
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void replace(ActivityReplaceEvent activityReplaceEvent) {
         gameRoom = activityReplaceEvent.getGameRoom();
-        tvAddress.setText( activityReplaceEvent.getGameRoom().getAddress());
+        tvAddress.setText(activityReplaceEvent.getGameRoom().getAddress());
         tvTitle.setText(activityReplaceEvent.getGameRoom().getTitle());
         Log.d(TAG, "setDetail: 1");
         EventBus.getDefault().removeAllStickyEvents();
@@ -92,14 +107,38 @@ public class DetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==R.id.mn_location){
+        if (item.getItemId() == R.id.mn_location) {
             Log.d(TAG, "onOptionsItemSelected");
             EventBus.getDefault().postSticky(new MoveToMapEvent(gameRoom, MoveToMap.FROMDETAIL));
             startActivity(new Intent(DetailActivity.this, MapsActivity.class));
-            Log.d(TAG, String.format("%s", gameRoom.toString()));
 
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void call() {
+        try {
+            String phoneNumber = "0979301596";
+            Uri uri = Uri.parse("tel:" + phoneNumber);
+            Intent it = new Intent(Intent.ACTION_CALL);
+            it.setData(uri);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+
+            startActivity(it);
+
+        }
+        catch (ActivityNotFoundException e) {
+            // Exceptions
+        }
     }
 }
