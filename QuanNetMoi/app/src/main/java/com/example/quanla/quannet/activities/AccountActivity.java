@@ -35,8 +35,13 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.nlopez.smartlocation.OnGeocodingListener;
+import io.nlopez.smartlocation.SmartLocation;
+import io.nlopez.smartlocation.geocoding.utils.LocationAddress;
 
 public class AccountActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener,View.OnClickListener {
 
@@ -88,6 +93,12 @@ public class AccountActivity extends AppCompatActivity implements GoogleApiClien
 
     private void setupUI() {
         ButterKnife.bind(this);
+        SmartLocation.with(this).geocoding().direct("83 dao tan", new OnGeocodingListener() {
+            @Override
+            public void onLocationResolved(String s, List<LocationAddress> list) {
+                Log.d(TAG, String.format("onLocationResolved: %s", list.get(0).getLocation().toString()));
+            }
+        });
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -248,5 +259,13 @@ public class AccountActivity extends AppCompatActivity implements GoogleApiClien
         Intent intent = new Intent(this,CoreActivity.class);
         startActivity(intent);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        }
+
 }
 
