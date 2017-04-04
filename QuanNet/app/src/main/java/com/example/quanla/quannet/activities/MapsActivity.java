@@ -367,4 +367,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         startActivity(new Intent(MapsActivity.this, DetailActivity.class));
     }
 
+<<<<<<< HEAD:QuanNet/app/src/main/java/com/example/quanla/quannet/activities/MapsActivity.java
 }
+=======
+}
+>>>>>>> 7c4a009f6259f8f9160dd678ee77962a727e5379:QuanNetMoi/app/src/main/java/com/example/quanla/quannet/activities/MapsActivity.java
