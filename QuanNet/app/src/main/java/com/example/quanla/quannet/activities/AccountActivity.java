@@ -1,30 +1,66 @@
 package com.example.quanla.quannet.activities;
 
+import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.quanla.quannet.R;
 import com.example.quanla.quannet.database.models.GameRoom;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-<<<<<<< HEAD:QuanNet/app/src/main/java/com/example/quanla/quannet/activities/AccountActivity.java
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class AccountActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener,View.OnClickListener {
-=======
-public class AccountActivity extends AppCompatActivity {
->>>>>>> 7c4a009f6259f8f9160dd678ee77962a727e5379:QuanNetMoi/app/src/main/java/com/example/quanla/quannet/activities/AccountActivity.java
 
 
     private DatabaseReference mDatabase;
+    @BindView(R.id.im_fb)
+    ImageButton imfb;
+    @BindView(R.id.im_gg)
+    ImageButton imgg;
+    @BindView(R.id.loginButton)
+    LoginButton loginButton;
+    @BindView(R.id.next)
+    Button next;
 
+    private static final String TAG = "AccountActivity";
+    private static final int RC_SIGN_IN = 9001;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private GoogleApiClient mGoogleApiClient;
+    private CallbackManager mCallbackManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
-<<<<<<< HEAD:QuanNet/app/src/main/java/com/example/quanla/quannet/activities/AccountActivity.java
         setupUI();
 //        mDatabase = FirebaseDatabase.getInstance().getReference();
 //        mDatabase.child("hot").child("Playdota Stadium").setValue(new GameRoom(null, "Playdota Stadium", "79 Đặng Văn Ngữ, Trung Tự, Đống Đa, Hà Nội", "Excellent", 21.009882,105.8290213));
@@ -192,30 +228,24 @@ public class AccountActivity extends AppCompatActivity {
         mAuth.addAuthStateListener(mAuthListener);
         super.onStart();
     }
-=======
->>>>>>> 7c4a009f6259f8f9160dd678ee77962a727e5379:QuanNetMoi/app/src/main/java/com/example/quanla/quannet/activities/AccountActivity.java
 
-//        mDatabase = FirebaseDatabase.getInstance().getReference();
-//        mDatabase.child("new").child("Imba eSports Stadium").setValue(new GameRoom(null, "Imba eSports Stadium", "152 Phó Đức Chính, Trúc Bạch, Ba Đình, Hà Nội", "Excellent", 21.045606,105.8410282));
-//        mDatabase.child("new").child("Monaco Game").setValue(new GameRoom(null, "Monaco Game", "tầng 6, 22 Thành Công, Khu tập thể Bắc Thành Công, Ba Đình, Hà Nội", "Excellent", 21.0221663,105.8136659));
-//        mDatabase.child("new").child("Game Vip").setValue(new GameRoom(null, "Game Vip", "69 Phó Đức Chính, Quận Ba Đình, Hà Nội", "Excellent", 21.0483626,105.839595));
-//        mDatabase.child("new").child("Arena Gaming Center").setValue(new GameRoom(null, "Arena Gaming Center", "Tầng 5, 52 Chùa Hà, Hà Nội", "Excellent", 21.035984,105.7928853));
-//        mDatabase.child("new").child("360 game").setValue(new GameRoom(null, "360 game", "29, Tô Hiệu, Phường Nghĩa Đô,Quận Cầu Giấy, Hà Nội", "Excellent", 21.044935,105.7952233));
-//        mDatabase.child("new").child("Quan 360 do game").setValue(new GameRoom(null, "Quán 360 độ game", "77, Đặng Văn Ngữ, Phường Trung Tự, Quận Đống Đa, Hà Nội", "Excellent", 21.01102,105.8312663));
-//        mDatabase.child("new").child("Team Tame").setValue(new GameRoom(null, "Team Tame", "115, Đặng Tiến Đông, Phường Trung Liệt, Quận Đống Đa, Hà Nội", "Excellent", 21.012604,105.8211183));
+    @Override
+    protected void onStop() {
+        mAuth.removeAuthStateListener(mAuthListener);
+        super.onStop();
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
 
+    @Override
+    public void onClick(View v) {
 
-<<<<<<< HEAD:QuanNet/app/src/main/java/com/example/quanla/quannet/activities/AccountActivity.java
     }
     public void replaceActivity(){
         Intent intent = new Intent(this,CoreActivity.class);
         startActivity(intent);
     }
 }
-=======
-
-
-}
->>>>>>> 7c4a009f6259f8f9160dd678ee77962a727e5379:QuanNetMoi/app/src/main/java/com/example/quanla/quannet/activities/AccountActivity.java

@@ -56,7 +56,6 @@
             android:textColor="#7f8c8d"
             android:textSize="14dp" />
 
-<<<<<<< HEAD:QuanNet/app/src/main/res/layout/item_hot.xml
         <ImageView
             android:id="@+id/iv_km"
             android:layout_marginLeft="6dp"
@@ -94,7 +93,5 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-=======
->>>>>>> 7c4a009f6259f8f9160dd678ee77962a727e5379:QuanNetMoi/app/src/main/res/layout/item_hot.xml
     </RelativeLayout>
 </android.support.v7.widget.CardView>

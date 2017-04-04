@@ -158,27 +158,12 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-<<<<<<< HEAD:QuanNet/app/src/main/res/layout/activity_detail.xml
                     android:id="@+id/txt_computer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Xem số máy còn và đặt máy"
-=======
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Xem số máy còn và đặt máy :"
->>>>>>> 7c4a009f6259f8f9160dd678ee77962a727e5379:QuanNetMoi/app/src/main/res/layout/activity_detail.xml
                     android:textAlignment="center"/>
-                <Button
-                    android:id="@+id/bt_call"
-                    android:textSize="20dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/ic_call_white_24px"
-                    />
             </LinearLayout>
 
             <View
@@ -214,7 +199,6 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:text="Send"/>
-<<<<<<< HEAD:QuanNet/app/src/main/res/layout/activity_detail.xml
 
     </LinearLayout>
 
@@ -234,9 +218,5 @@
         android:textSize="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-=======
-
-    </LinearLayout>
->>>>>>> 7c4a009f6259f8f9160dd678ee77962a727e5379:QuanNetMoi/app/src/main/res/layout/activity_detail.xml
 
 </RelativeLayout>

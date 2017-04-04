@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-<<<<<<< HEAD:QuanNet/.idea/modules.xml
       <module fileurl="file://$PROJECT_DIR$/QuanNet.iml" filepath="$PROJECT_DIR$/QuanNet.iml" />
-=======
-      <module fileurl="file://$PROJECT_DIR$/QuanNetMoi.iml" filepath="$PROJECT_DIR$/QuanNetMoi.iml" />
-      <module fileurl="file://$PROJECT_DIR$/QuanNetMoi1.iml" filepath="$PROJECT_DIR$/QuanNetMoi1.iml" />
->>>>>>> 7c4a009f6259f8f9160dd678ee77962a727e5379:QuanNetMoi/.idea/modules.xml
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

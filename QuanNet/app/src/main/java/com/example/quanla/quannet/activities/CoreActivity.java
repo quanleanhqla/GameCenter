@@ -1,13 +1,21 @@
 package com.example.quanla.quannet.activities;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.graphics.drawable.GradientDrawable;
+import android.provider.BaseColumns;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.CursorAdapter;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -15,6 +23,8 @@ import android.widget.LinearLayout;
 
 import com.example.quanla.quannet.R;
 import com.example.quanla.quannet.adapters.PagerAdapter;
+import com.example.quanla.quannet.database.DbContextHot;
+import com.example.quanla.quannet.database.models.GameRoom;
 import com.example.quanla.quannet.events.ActivityReplaceEvent;
 import com.example.quanla.quannet.events.MoveToMap;
 import com.example.quanla.quannet.events.MoveToMapEvent;
@@ -31,6 +41,7 @@ import butterknife.ButterKnife;
 public class CoreActivity extends AppCompatActivity {
 
     private static final long RIPPLE_DURATION = 250;
+    private static final String TAG = "CoreActivity";
 
     private LinearLayout llProfile;
     private LinearLayout llNear;
@@ -44,15 +55,12 @@ public class CoreActivity extends AppCompatActivity {
     @BindView(R.id.content_hamburger)
     View contentHamburger;
 
-<<<<<<< HEAD:QuanNet/app/src/main/java/com/example/quanla/quannet/activities/CoreActivity.java
     @BindView(R.id.sv_search)
     SearchView searchView;
     String[] allName = {"Playdota Stadium", "Cybox Game Center", "Vikings Gaming", "Pegasus Club Center","GameHome","Gaming House","Imba eSports Stadium","Monaco Game","Colosseum Gaming Center","Only One Airport Gaming","Epic Gaming Center","Game Vip","G5 E-Sport Center","Moon Game", "Nhiệt Game", "Royal Gaming","Arena Gaming Center","Cyzone","H3 Cyber Gaming","Clan 105"};
     private SimpleCursorAdapter cursorAdapter;
     private String suggestionSelecect;
 
-=======
->>>>>>> 7c4a009f6259f8f9160dd678ee77962a727e5379:QuanNetMoi/app/src/main/java/com/example/quanla/quannet/activities/CoreActivity.java
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +69,6 @@ public class CoreActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         FirebaseMessaging.getInstance().subscribeToTopic("news");
 
-<<<<<<< HEAD:QuanNet/app/src/main/java/com/example/quanla/quannet/activities/CoreActivity.java
         final String[] from = new String[] {"quannet"};
         final int[] to = new int[] {android.R.id.text1};
         cursorAdapter = new SimpleCursorAdapter((Activity)this,
@@ -70,8 +77,6 @@ public class CoreActivity extends AppCompatActivity {
                 from,
                 to,
                 CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-=======
->>>>>>> 7c4a009f6259f8f9160dd678ee77962a727e5379:QuanNetMoi/app/src/main/java/com/example/quanla/quannet/activities/CoreActivity.java
 
         if (toolbar != null) {
             setSupportActionBar(toolbar);
@@ -131,7 +136,6 @@ public class CoreActivity extends AppCompatActivity {
             ((LinearLayout) root).setDividerPadding(10);
             ((LinearLayout) root).setDividerDrawable(drawable);
         }
-<<<<<<< HEAD:QuanNet/app/src/main/java/com/example/quanla/quannet/activities/CoreActivity.java
         searchView.setSuggestionsAdapter(cursorAdapter);
 
         searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
@@ -192,8 +196,6 @@ public class CoreActivity extends AppCompatActivity {
         EventBus.getDefault().unregister(this);
         super.onPause();
 
-=======
->>>>>>> 7c4a009f6259f8f9160dd678ee77962a727e5379:QuanNetMoi/app/src/main/java/com/example/quanla/quannet/activities/CoreActivity.java
     }
 
 }

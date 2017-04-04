@@ -1,21 +1,20 @@
 package com.example.quanla.quannet.activities;
 
 import android.content.Intent;
+import android.location.Location;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-<<<<<<< HEAD:QuanNet/app/src/main/java/com/example/quanla/quannet/activities/NewActivity.java
 import android.util.Log;
-=======
->>>>>>> 7c4a009f6259f8f9160dd678ee77962a727e5379:QuanNetMoi/app/src/main/java/com/example/quanla/quannet/activities/NewActivity.java
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.example.quanla.quannet.R;
-<<<<<<< HEAD:QuanNet/app/src/main/java/com/example/quanla/quannet/activities/NewActivity.java
 import com.example.quanla.quannet.database.models.GameRoom;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -23,18 +22,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
-=======
->>>>>>> 7c4a009f6259f8f9160dd678ee77962a727e5379:QuanNetMoi/app/src/main/java/com/example/quanla/quannet/activities/NewActivity.java
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.nlopez.smartlocation.OnGeocodingListener;
+import io.nlopez.smartlocation.SmartLocation;
+import io.nlopez.smartlocation.geocoding.utils.LocationAddress;
 
 public class NewActivity extends AppCompatActivity {
-<<<<<<< HEAD:QuanNet/app/src/main/java/com/example/quanla/quannet/activities/NewActivity.java
     private static final String TAG = "NewActivity";
-=======
-
->>>>>>> 7c4a009f6259f8f9160dd678ee77962a727e5379:QuanNetMoi/app/src/main/java/com/example/quanla/quannet/activities/NewActivity.java
     @BindView(R.id.ib_photo)
     ImageButton imageButton;
 
@@ -68,9 +64,15 @@ public class NewActivity extends AppCompatActivity {
     @BindView(R.id.edt_detail)
     EditText edtDetail;
 
+    @BindView(R.id.post)
+    Button post;
+    private DatabaseReference databaseReference;
     private Uri uriImage;
+    private String address;
+    private String title;
 
     private static final int GALLERY_REQUEST = 1;
+    private Location location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +80,7 @@ public class NewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new);
 
         ButterKnife.bind(this);
+        databaseReference = FirebaseDatabase.getInstance().getReference();
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,7 +91,6 @@ public class NewActivity extends AppCompatActivity {
                 ll1.setVisibility(View.VISIBLE);
             }
         });
-<<<<<<< HEAD:QuanNet/app/src/main/java/com/example/quanla/quannet/activities/NewActivity.java
 
         post.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,17 +147,4 @@ public class NewActivity extends AppCompatActivity {
         Log.d(TAG, String.format("geoAddress: %s", location[0].toString()));
         return location[0];
     }
-=======
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == GALLERY_REQUEST && resultCode == RESULT_OK){
-            uriImage = data.getData();
-            iv1.setImageURI(uriImage);
-        }
-    }
->>>>>>> 7c4a009f6259f8f9160dd678ee77962a727e5379:QuanNetMoi/app/src/main/java/com/example/quanla/quannet/activities/NewActivity.java
 }
