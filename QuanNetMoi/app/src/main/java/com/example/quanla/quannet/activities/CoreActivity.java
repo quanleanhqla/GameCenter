@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.quanla.quannet.R;
 import com.example.quanla.quannet.adapters.PagerAdapter;
@@ -28,6 +29,7 @@ import com.example.quanla.quannet.database.models.GameRoom;
 import com.example.quanla.quannet.events.ActivityReplaceEvent;
 import com.example.quanla.quannet.events.MoveToMap;
 import com.example.quanla.quannet.events.MoveToMapEvent;
+import com.google.firebase.auth.FirebaseAuth;
 import com.yalantis.guillotine.animation.GuillotineAnimation;
 
 
@@ -55,6 +57,8 @@ public class CoreActivity extends AppCompatActivity {
     View contentHamburger;
     @BindView(R.id.sv_search)
     SearchView searchView;
+    @BindView(R.id.tv_nameuser)
+    TextView textView;
     String suggestionSelecect ;
     String[] allName = {"Playdota Stadium", "Cybox Game Center", "Vikings Gaming", "Pegasus Club Center","GameHome","Gaming House","Imba eSports Stadium","Monaco Game","Colosseum Gaming Center","Only One Airport Gaming","Epic Gaming Center","Game Vip","G5 E-Sport Center","Moon Game", "Nhiệt Game", "Royal Gaming","Arena Gaming Center","Cyzone","H3 Cyber Gaming","Clan 105"};
     private SimpleCursorAdapter cursorAdapter;
@@ -64,6 +68,7 @@ public class CoreActivity extends AppCompatActivity {
         setContentView(R.layout.activity_core);
         ButterKnife.bind(this);
 
+        textView.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
         final String[] from = new String[] {"quannet"};
         final int[] to = new int[] {android.R.id.text1};
 
@@ -193,6 +198,7 @@ public class CoreActivity extends AppCompatActivity {
         super.onPause();
 
     }
+
 
 
 }

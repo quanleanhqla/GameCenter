@@ -6,5 +6,6 @@ package com.example.quanla.quannet.events;
 
 public enum MoveToMap {
     FROMDETAIL,
-    FROMNEARME
+    FROMNEARME,
+    MOVEFROMACCOUNT,
 }

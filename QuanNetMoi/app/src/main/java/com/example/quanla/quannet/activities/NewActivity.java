@@ -98,25 +98,25 @@ public class NewActivity extends AppCompatActivity {
 
 
 
-        post.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                 address = edtAddress.getText().toString();
-                 title = edtTitle.getText().toString();
-                SmartLocation.with(NewActivity.this).geocoding().direct(address, new OnGeocodingListener() {
-                    @Override
-                    public void onLocationResolved(String s, List<LocationAddress> list) {
-                        if (list.size()>0){
-                            location = list.get(0).getLocation();
-                            GameRoom gameRoom = new GameRoom(null,title,address,"good",location.getLatitude(),location.getLongitude());
-                            upNewGameRoom(gameRoom);
+            post.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                     address = edtAddress.getText().toString();
+                     title = edtTitle.getText().toString();
+                    SmartLocation.with(NewActivity.this).geocoding().direct(address, new OnGeocodingListener() {
+                        @Override
+                        public void onLocationResolved(String s, List<LocationAddress> list) {
+                            if (list.size()>0){
+                                location = list.get(0).getLocation();
+                                GameRoom gameRoom = new GameRoom(null,title,address,"good",location.getLatitude(),location.getLongitude());
+                                upNewGameRoom(gameRoom);
+                            }
+
                         }
+                    });
 
-                    }
-                });
-
-            }
-        });
+                }
+            });
     }
     private void upNewGameRoom(GameRoom gameRoom){
         databaseReference.child("update").child(gameRoom.getTitle()).setValue(gameRoom).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -131,12 +131,6 @@ public class NewActivity extends AppCompatActivity {
 
             }
         });
-    }
-    private Location geoAddress(String address) {
-        final Location[] location = new Location[1];
-
-        Log.d(TAG, String.format("geoAddress: %s", location[0].toString()));
-        return location[0];
     }
 
     @Override
