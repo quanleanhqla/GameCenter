@@ -5,25 +5,36 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.quanla.quannet.R;
 import com.example.quanla.quannet.adapters.CommentAdapter;
 import com.example.quanla.quannet.adapters.PhotoAdapter;
+import com.example.quanla.quannet.database.DbContextHot;
+import com.example.quanla.quannet.database.models.Comments;
 import com.example.quanla.quannet.database.models.GameRoom;
 import com.example.quanla.quannet.events.ActivityReplaceEvent;
 import com.example.quanla.quannet.events.MoveToMap;
 import com.example.quanla.quannet.events.MoveToMapEvent;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -32,7 +43,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity implements View.OnClickListener{
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -52,11 +63,20 @@ public class DetailActivity extends AppCompatActivity {
     @BindView(R.id.txt_computer)
     TextView tvComputer;
 
+    @BindView(R.id.send)
+    Button send;
 
-
+    @BindView(R.id.et_cmt)
+    EditText etcmt;
+    @BindView(R.id.im)
+    ImageView imageView;
+    @BindView(R.id.comment)
+            TextView textView;
+    DatabaseReference databaseReference;
     PhotoAdapter photoAdapter;
     CommentAdapter commentAdapter;
     String comment;
+    Comments comments;
     private String TAG = "DetailActivity";
 
     private GameRoom gameRoom;
@@ -67,18 +87,66 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
 
-
+        databaseReference = FirebaseDatabase.getInstance().getReference();
         if (toolbar != null) {
             setSupportActionBar(toolbar);
         }
-
+//        Uri uri = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
+//        Log.d(TAG, String.format("onCreate: %s", uri));
+//        imageView.setImageURI(null);
+//        imageView.setImageURI(uri);
         tvComputer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(DetailActivity.this, RoomActivity.class));
             }
         });
+        etcmt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etcmt.setFocusable(true);
+            }
+        });
+        etcmt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+               comments = new Comments(FirebaseAuth.getInstance().getCurrentUser().getDisplayName(),s.toString());
+
+            }
+        });
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                databaseReference.child("comment").child(tvTitle.getText().toString()).push().setValue(comments).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful())
+                            Log.d(TAG, "onComplete: ");
+                        else Log.d(TAG, String.format("onComplete: %s", task.getException().toString()));
+                    }
+                });
+                DbContextHot.instance.addComment(comments);
+
+            }
+        });
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etcmt.setFocusableInTouchMode(true);
+                EventBus.getDefault().postSticky(tvTitle.getText().toString());
+                startActivity(new Intent(DetailActivity.this,CommentActivity.class));
+            }
+        });
     }
 
     @Override
@@ -115,10 +183,14 @@ public class DetailActivity extends AppCompatActivity {
             Log.d(TAG, "onOptionsItemSelected");
             EventBus.getDefault().postSticky(new MoveToMapEvent(gameRoom, MoveToMap.FROMDETAIL));
             startActivity(new Intent(DetailActivity.this, MapsActivity.class));
-
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        etcmt.setFocusableInTouchMode(true);
     }
 
 //    private void call() {

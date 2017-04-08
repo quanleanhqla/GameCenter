@@ -23,6 +23,7 @@ import com.example.quanla.quannet.R;
 import com.example.quanla.quannet.activities.DetailActivity;
 import com.example.quanla.quannet.adapters.HotAdapter;
 import com.example.quanla.quannet.database.DbContextHot;
+import com.example.quanla.quannet.database.models.Comments;
 import com.example.quanla.quannet.database.models.GameRoom;
 import com.example.quanla.quannet.events.ActivityReplaceEvent;
 import com.google.android.gms.location.LocationListener;
@@ -95,6 +96,8 @@ public class HotFragment extends Fragment implements LocationListener {
 //                    gameRoom.setKm(km);
                     DbContextHot.instance.add(gameRoom);
                 }
+//                for (GameRoom gameRoom : DbContextHot.instance.getAllRooms())
+//                    databaseReference.child("comment").child(gameRoom.getTitle()).push().setValue(new Comments("0","0"));
                 Log.d(TAG, String.format("%s", dataSnapshot.child("hot").child("Playdota Stadium").getValue(GameRoom.class)));
                 Log.d(TAG, (String.format("%s", DbContextHot.instance.getAllRooms().get(0).toString())));
                 hotAdapter.notifyDataSetChanged();

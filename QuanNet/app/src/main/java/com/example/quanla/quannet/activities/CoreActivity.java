@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.graphics.drawable.GradientDrawable;
+import android.net.Uri;
 import android.provider.BaseColumns;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
@@ -19,21 +20,31 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.example.quanla.quannet.R;
 import com.example.quanla.quannet.adapters.PagerAdapter;
 import com.example.quanla.quannet.database.DbContextHot;
+import com.example.quanla.quannet.database.models.Comments;
 import com.example.quanla.quannet.database.models.GameRoom;
 import com.example.quanla.quannet.events.ActivityReplaceEvent;
 import com.example.quanla.quannet.events.MoveToMap;
 import com.example.quanla.quannet.events.MoveToMapEvent;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.yalantis.guillotine.animation.GuillotineAnimation;
 
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.w3c.dom.Comment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,6 +66,7 @@ public class CoreActivity extends AppCompatActivity {
     @BindView(R.id.content_hamburger)
     View contentHamburger;
 
+    DatabaseReference databaseReference;
     @BindView(R.id.sv_search)
     SearchView searchView;
     String[] allName = {"Playdota Stadium", "Cybox Game Center", "Vikings Gaming", "Pegasus Club Center","GameHome","Gaming House","Imba eSports Stadium","Monaco Game","Colosseum Gaming Center","Only One Airport Gaming","Epic Gaming Center","Game Vip","G5 E-Sport Center","Moon Game", "Nhiệt Game", "Royal Gaming","Arena Gaming Center","Cyzone","H3 Cyber Gaming","Clan 105"};
@@ -67,6 +79,35 @@ public class CoreActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_core);
         ButterKnife.bind(this);
+        databaseReference= FirebaseDatabase.getInstance().getReference();
+
+//databaseReference.child("comment").child("Playdota Stadium").addChildEventListener(new ChildEventListener() {
+//    @Override
+//    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//        Comments comments = dataSnapshot.getValue(Comments.class);
+//        Log.d(TAG, String.format("onChildAdded: %s", comments));
+//    }
+//
+//    @Override
+//    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//
+//    }
+//
+//    @Override
+//    public void onChildRemoved(DataSnapshot dataSnapshot) {
+//
+//    }
+//
+//    @Override
+//    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//
+//    }
+//
+//    @Override
+//    public void onCancelled(DatabaseError databaseError) {
+//
+//    }
+//});
         FirebaseMessaging.getInstance().subscribeToTopic("news");
 
         final String[] from = new String[] {"quannet"};

@@ -15,7 +15,9 @@ import android.view.ViewGroup;
 import com.example.quanla.quannet.R;
 import com.example.quanla.quannet.activities.NewActivity;
 import com.example.quanla.quannet.adapters.NewAdapter;
+import com.example.quanla.quannet.database.DbContextHot;
 import com.example.quanla.quannet.database.DbContextNew;
+import com.example.quanla.quannet.database.models.Comments;
 import com.example.quanla.quannet.database.models.GameRoom;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -65,6 +67,9 @@ public class NewFragment extends Fragment {
                 for(int i=0; i<allName.length; i++){
                     DbContextNew.instance.add(dataSnapshot.child("new").child(allName[i]).getValue(GameRoom.class));
                 }
+
+//                for (GameRoom gameRoom : DbContextNew.instance.getAllRooms())
+//                    databaseReference.child("comment").child(gameRoom.getTitle()).push().setValue(new Comments("0","0"));
                 Log.e(TAG, String.format("abc: %s", dataSnapshot.child("new")));
                 Log.e(TAG, String.format("def: %s", dataSnapshot.child("new").getChildrenCount()));
                 Log.e(TAG, String.format("%s", DbContextNew.instance.getAllRooms().toString()));

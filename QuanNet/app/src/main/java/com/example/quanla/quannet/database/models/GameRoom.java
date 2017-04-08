@@ -3,6 +3,7 @@ package com.example.quanla.quannet.database.models;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,9 +22,17 @@ public class GameRoom {
 //    private int[] mayCon =  {6, 13, 20};
     private double latitude;
     private double longitude;
-
+    private ArrayList<Comments> comment;
     public GameRoom(){
 
+    }
+
+    public GameRoom(String title, String address, double latitude, double longitude, ArrayList<Comments> comment) {
+        this.title = title;
+        this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.comment = comment;
     }
 
     public GameRoom(double latitude, double longitude){
@@ -125,14 +134,16 @@ public class GameRoom {
     @Override
     public String toString() {
         return "GameRoom{" +
-                "address='" + address + '\'' +
+                "km=" + km +
+                ", canSmoke=" + canSmoke +
+                ", canPark=" + canPark +
                 ", urlImage='" + urlImage + '\'' +
                 ", title='" + title + '\'' +
+                ", address='" + address + '\'' +
                 ", rate='" + rate + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
+                ", comment=" + comment +
                 '}';
     }
-
-
 }

@@ -2,6 +2,7 @@ package com.example.quanla.quannet.database;
 
 
 
+import com.example.quanla.quannet.database.models.Comments;
 import com.example.quanla.quannet.database.models.GameRoom;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public class DbContextHot {
 
     public static final DbContextHot instance = new DbContextHot();
     private ArrayList<GameRoom> allRooms;
-    public ArrayList<String> comments;
+    public ArrayList<Comments> comments;
 
 
     public ArrayList<GameRoom> getAllRooms(){
@@ -49,14 +50,14 @@ public class DbContextHot {
         allRooms.clear();
     }
 
-    public ArrayList<String> allComment() {
+    public ArrayList<Comments> allComment() {
         if (comments ==null){
             comments = new ArrayList<>();
         }
 
         return comments;
     }
-    public void addComment(String string){
+    public void addComment(Comments string){
         if (comments ==null){
             comments = new ArrayList<>();
         }

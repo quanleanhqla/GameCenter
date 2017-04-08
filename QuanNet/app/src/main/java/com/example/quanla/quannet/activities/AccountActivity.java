@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.quanla.quannet.R;
+import com.example.quanla.quannet.database.models.Comments;
 import com.example.quanla.quannet.database.models.GameRoom;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -32,8 +33,15 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import org.w3c.dom.Comment;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,7 +70,10 @@ public class AccountActivity extends AppCompatActivity implements GoogleApiClien
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
         setupUI();
-//        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+
 //        mDatabase.child("hot").child("Playdota Stadium").setValue(new GameRoom(null, "Playdota Stadium", "79 Đặng Văn Ngữ, Trung Tự, Đống Đa, Hà Nội", "Excellent", 21.009882,105.8290213));
 //        mDatabase.child("hot").child("Cybox Game Center").setValue(new GameRoom(null, "Cybox Game Center", "52 Nguyễn Hữu Huân, Lý Thái Tổ, Hoàn Kiếm, Hà Nội", "Excellent", 21.0334396,105.8522325));
 //        mDatabase.child("hot").child("Vikings Gaming").setValue(new GameRoom(null, "Vikings Gaming", "Số 8 Ngõ 198B, Nguyễn Tuân, Thanh Xuân, Hanoi", "Excellent", 21.0015355,105.7993634));

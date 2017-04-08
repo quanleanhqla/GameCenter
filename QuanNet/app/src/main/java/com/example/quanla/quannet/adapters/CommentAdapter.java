@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.example.quanla.quannet.R;
 import com.example.quanla.quannet.adapters.viewholders.CommentHolder;
 import com.example.quanla.quannet.database.DbContextHot;
+import com.example.quanla.quannet.database.models.Comments;
 
 /**
  * Created by Quoc Viet Dang on 3/21/2017.
@@ -26,8 +27,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentHolder> {
 
     @Override
     public void onBindViewHolder(CommentHolder holder, int position) {
-        String string = DbContextHot.instance.allComment().get(position);
-        holder.bind(string);
+        Comments comments = DbContextHot.instance.allComment().get(position);
+        if (comments!=new Comments("0","0"))
+        holder.bind(comments);
     }
 
     @Override
