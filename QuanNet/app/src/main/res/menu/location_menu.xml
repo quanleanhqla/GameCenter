@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:title="location"
-        android:icon="@drawable/ic_location_on_white_24px"
+        android:icon="@drawable/ic_directions_white_24px"
         android:id="@+id/mn_location"
         app:showAsAction="always"
         />

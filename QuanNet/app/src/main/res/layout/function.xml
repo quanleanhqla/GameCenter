@@ -44,33 +44,5 @@
             android:text="@string/near" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/activity_group"
-        style="@style/LinearLayout.GuillotineItem">
 
-        <ImageView
-            style="@style/ImageView.GuillotineItem"
-            android:src="@drawable/ic_activity_active" />
-
-        <com.example.quanla.quannet.widgets.CanaroTextView
-            style="@style/TextView.GuillotineItem.Selected"
-            android:text="@string/activity" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/guillotine_divider_height" />
-
-    <LinearLayout
-        android:id="@+id/settings_group"
-        style="@style/LinearLayout.GuillotineItem">
-
-        <ImageView
-            style="@style/ImageView.GuillotineItem"
-            android:src="@drawable/ic_settings" />
-
-        <com.example.quanla.quannet.widgets.CanaroTextView
-            style="@style/TextView.GuillotineItem"
-            android:text="@string/settings" />
-    </LinearLayout>
 </LinearLayout>

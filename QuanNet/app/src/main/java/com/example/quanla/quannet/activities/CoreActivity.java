@@ -19,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -58,6 +59,7 @@ public class CoreActivity extends AppCompatActivity {
     private LinearLayout llNear;
     private ViewPager viewPager;
     private TabLayout tabLayout;
+    private Button btnNear;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -135,6 +137,15 @@ public class CoreActivity extends AppCompatActivity {
 
 
         llProfile =(LinearLayout) guillotineMenu.findViewById(R.id.profile_group);
+        btnNear = (Button) findViewById(R.id.btn_near);
+
+        btnNear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().postSticky(new MoveToMapEvent(MoveToMap.FROMNEARME));
+                startActivity(new Intent(CoreActivity.this, MapsActivity.class));
+            }
+        });
 
         llProfile.setOnClickListener(new View.OnClickListener() {
             @Override
