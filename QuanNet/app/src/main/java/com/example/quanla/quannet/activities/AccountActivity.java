@@ -57,6 +57,8 @@ public class AccountActivity extends AppCompatActivity implements GoogleApiClien
     @BindView(R.id.loginButton)
     LoginButton loginButton;
 
+
+
     private static final String TAG = "AccountActivity";
     private static final int RC_SIGN_IN = 9001;
     private FirebaseAuth mAuth;
@@ -153,7 +155,6 @@ public class AccountActivity extends AppCompatActivity implements GoogleApiClien
 
             }
         });
-
 
     }
     @Override
