@@ -124,8 +124,10 @@ public class CommentActivity extends AppCompatActivity {
                 databaseReference.child("comment").child(title).push().setValue(comments).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful())
-                            Toast.makeText(CommentActivity.this,"Bình luận đã được đăng",Toast.LENGTH_SHORT).show();
+                        if (task.isSuccessful()) {
+                            Toast.makeText(CommentActivity.this, "Bình luận đã được đăng", Toast.LENGTH_SHORT).show();
+                            editText.setText(null);
+                        }
                         else Toast.makeText(CommentActivity.this,"Bình luận thất bại",Toast.LENGTH_SHORT).show();
                     }
                 });
