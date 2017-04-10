@@ -16,6 +16,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.quanla.quannet.R;
 import com.example.quanla.quannet.adapters.CommentAdapter;
@@ -45,6 +46,10 @@ public class CommentActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     @BindView(R.id.tv_cmt)
     TextView textView;
+    @BindView(R.id.btn_send)
+    Button button;
+    @BindView(R.id.edt_cmt)
+    EditText editText;
     private DatabaseReference databaseReference;
     private String title;
     private CommentAdapter commentAdapter;
@@ -69,7 +74,10 @@ public class CommentActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Comments comments = dataSnapshot.getValue(Comments.class);
-               if (comments.getUri()!=null) DbContextHot.instance.addComment(comments);
+               if (comments.getUri()!=null) {
+                   DbContextHot.instance.addComment(comments);
+                   textView.setVisibility(View.INVISIBLE);
+               }
 //                commentAdapter.notifyDataSetChanged();
             }
 
@@ -93,7 +101,38 @@ public class CommentActivity extends AppCompatActivity {
 
             }
         });
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                comments = new Comments(FirebaseAuth.getInstance().getCurrentUser().getDisplayName(),s.toString(),FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().toString());
+
+            }
+        });
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                databaseReference.child("comment").child(title).push().setValue(comments).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful())
+                            Toast.makeText(CommentActivity.this,"Bình luận đã được đăng",Toast.LENGTH_SHORT).show();
+                        else Toast.makeText(CommentActivity.this,"Bình luận thất bại",Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+            }
+        });
 
         commentAdapter = new CommentAdapter();
         commentAdapter.setContext(this);

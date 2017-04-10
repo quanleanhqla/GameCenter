@@ -2,11 +2,8 @@ package com.example.quanla.quannet.activities;
 
 import android.Manifest;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -19,11 +16,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.quanla.quannet.R;
@@ -37,52 +33,32 @@ import com.example.quanla.quannet.events.MoveToMap;
 import com.example.quanla.quannet.events.MoveToMapEvent;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.vision.text.Line;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DetailActivity extends AppCompatActivity implements View.OnClickListener{
+public class DetailActivity extends AppCompatActivity{
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
-    @BindView(R.id.iv_image)
-    ImageView ivImage;
-
-    @BindView(R.id.tv_title)
-    TextView tvTitle;
-
+    @BindView(R.id.ll1)
+    LinearLayout llCMT;
+    @BindView(R.id.ll2)
+    LinearLayout llPhoto;
+    @BindView(R.id.btn_computer)
+    Button btnCall;
     @BindView(R.id.tv_address)
     TextView tvAddress;
-
-    @BindView(R.id.tv_momey)
-    TextView tvMoney;
-
-    @BindView(R.id.txt_computer)
-    TextView tvComputer;
-
-    @BindView(R.id.send)
-    Button send;
-
-    @BindView(R.id.et_cmt)
-    EditText etcmt;
-    @BindView(R.id.comment)
-            TextView textView;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
     DatabaseReference databaseReference;
     PhotoAdapter photoAdapter;
     CommentAdapter commentAdapter;
@@ -97,62 +73,25 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
-        getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-        );
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
         if (toolbar != null) {
             setSupportActionBar(toolbar);
         }
-        tvComputer.setOnClickListener(new View.OnClickListener() {
+//        Uri uri = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
+//        Log.d(TAG, String.format("onCreate: %s", uri));
+//        imageView.setImageURI(null);
+//        imageView.setImageURI(uri);
+        btnCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(DetailActivity.this, RoomActivity.class));
             }
         });
-        etcmt.setOnClickListener(new View.OnClickListener() {
+
+        llCMT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                etcmt.setFocusable(true);
-            }
-        });
-        etcmt.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-               comments = new Comments(FirebaseAuth.getInstance().getCurrentUser().getDisplayName(),s.toString(),FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().toString());
-
-            }
-        });
-        send.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                databaseReference.child("comment").child(tvTitle.getText().toString()).push().setValue(comments).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful())
-                            Log.d(TAG, "onComplete: ");
-                        else Log.d(TAG, String.format("onComplete: %s", task.getException().toString()));
-                    }
-                });
-                DbContextHot.instance.addComment(comments);
-
-            }
-        });
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                etcmt.setFocusableInTouchMode(true);
                 EventBus.getDefault().postSticky(tvTitle.getText().toString());
                 startActivity(new Intent(DetailActivity.this,CommentActivity.class));
             }
@@ -198,10 +137,6 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onClick(View v) {
-        etcmt.setFocusableInTouchMode(true);
-    }
 
 //    private void call() {
 //        try {
@@ -227,20 +162,4 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 //            // Exceptions
 //        }
 //    }
-private Bitmap getImageBitmap(String url) throws IOException {
-    Bitmap bm = null;
-    try {
-        URL aURL = new URL(url);
-        URLConnection conn = aURL.openConnection();
-        conn.connect();
-        InputStream is = conn.getInputStream();
-        BufferedInputStream bis = new BufferedInputStream(is);
-        bm = BitmapFactory.decodeStream(bis);
-        bis.close();
-        is.close();
-    } catch (IOException e) {
-        Log.e(TAG, "Error getting bitmap", e);
-    }
-    return bm;
-}
 }

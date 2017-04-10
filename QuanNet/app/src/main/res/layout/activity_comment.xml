@@ -12,7 +12,7 @@
 
     <TextView
         android:id="@+id/tv_cmt"
-        android:visibility="invisible"
+        android:visibility="gone"
         android:textSize="50dp"
         android:layout_centerInParent="true"
         android:text="Chưa Có Bình Luận Nào"
@@ -20,9 +20,27 @@
         android:layout_height="wrap_content" />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_cmt"
-
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="wrap_content">
     </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:hint="Nhận xét gì đó..."
+            android:id="@+id/edt_cmt"
+            android:layout_width="0dp"
+            android:layout_weight="8"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:text="Gửi"
+            android:id="@+id/btn_send"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"/>
+    </LinearLayout>
 </RelativeLayout>
