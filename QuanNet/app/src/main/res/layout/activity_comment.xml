@@ -10,33 +10,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.quanla.quannet.activities.CommentActivity">
 
-    <LinearLayout
-        android:layout_alignParentBottom="true"
-        android:id="@+id/ll6"
 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/et_cmt1"
-            android:hint="Write comment here..."
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="7"
-            />
-
-        <Button
-            android:id="@+id/sendcmt"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:text="Send"/>
-
-    </LinearLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_cmt"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="60dp"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

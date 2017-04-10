@@ -99,6 +99,8 @@ public class AccountActivity extends AppCompatActivity implements GoogleApiClien
 
     private void setupUI() {
         ButterKnife.bind(this);
+        if (FirebaseAuth.getInstance().getCurrentUser()!= null)
+            replaceActivity();
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

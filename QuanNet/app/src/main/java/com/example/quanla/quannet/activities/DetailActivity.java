@@ -2,8 +2,11 @@ package com.example.quanla.quannet.activities;
 
 import android.Manifest;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -16,6 +19,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -35,10 +40,18 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,8 +81,6 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
     @BindView(R.id.et_cmt)
     EditText etcmt;
-    @BindView(R.id.im)
-    ImageView imageView;
     @BindView(R.id.comment)
             TextView textView;
     DatabaseReference databaseReference;
@@ -86,15 +97,14 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
         if (toolbar != null) {
             setSupportActionBar(toolbar);
         }
-//        Uri uri = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
-//        Log.d(TAG, String.format("onCreate: %s", uri));
-//        imageView.setImageURI(null);
-//        imageView.setImageURI(uri);
         tvComputer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,7 +130,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
             @Override
             public void afterTextChanged(Editable s) {
-               comments = new Comments(FirebaseAuth.getInstance().getCurrentUser().getDisplayName(),s.toString());
+               comments = new Comments(FirebaseAuth.getInstance().getCurrentUser().getDisplayName(),s.toString(),FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().toString());
 
             }
         });
@@ -217,4 +227,20 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 //            // Exceptions
 //        }
 //    }
+private Bitmap getImageBitmap(String url) throws IOException {
+    Bitmap bm = null;
+    try {
+        URL aURL = new URL(url);
+        URLConnection conn = aURL.openConnection();
+        conn.connect();
+        InputStream is = conn.getInputStream();
+        BufferedInputStream bis = new BufferedInputStream(is);
+        bm = BitmapFactory.decodeStream(bis);
+        bis.close();
+        is.close();
+    } catch (IOException e) {
+        Log.e(TAG, "Error getting bitmap", e);
+    }
+    return bm;
+}
 }

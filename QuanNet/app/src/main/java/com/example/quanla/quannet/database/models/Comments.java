@@ -1,5 +1,7 @@
 package com.example.quanla.quannet.database.models;
 
+import android.net.Uri;
+
 /**
  * Created by Quoc Viet Dang on 4/3/2017.
  */
@@ -7,14 +9,28 @@ package com.example.quanla.quannet.database.models;
 public class Comments {
     private String username;
     private String comment;
-
+    private String uri;
     public Comments(String username, String comment) {
         this.username = username;
         this.comment = comment;
     }
 
+    public Comments(String username, String comment, String uri) {
+        this.username = username;
+        this.comment = comment;
+        this.uri = uri;
+    }
+
     public Comments() {
 
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 
     public String getUsername() {

@@ -1,5 +1,7 @@
 package com.example.quanla.quannet.activities;
 
+import android.content.Context;
+import android.inputmethodservice.Keyboard;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +11,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -29,6 +33,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -36,20 +42,22 @@ public class CommentActivity extends AppCompatActivity {
     private static final String TAG = "CommenActivity";
     @BindView(R.id.rv_cmt)
     RecyclerView recyclerView;
-    @BindView(R.id.sendcmt)
-    Button button;
-    @BindView(R.id.et_cmt1)
-    EditText editText;
+
     private DatabaseReference databaseReference;
     private String title;
     private CommentAdapter commentAdapter;
     private Comments comments;
-
+    private ArrayList<Comments> arrayList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        arrayList = new ArrayList<>();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
         ButterKnife.bind(this);
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
+
         EventBus.getDefault().register(this);
 
         if (DbContextHot.instance.allComment()!= null)
@@ -59,8 +67,7 @@ public class CommentActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Comments comments = dataSnapshot.getValue(Comments.class);
-                DbContextHot.instance.addComment(comments);
-                Log.d(TAG, String.format("onChildAdded: %s", comments));
+               if (comments.getUri()!=null) DbContextHot.instance.addComment(comments);
 //                commentAdapter.notifyDataSetChanged();
             }
 
@@ -84,38 +91,10 @@ public class CommentActivity extends AppCompatActivity {
 
             }
         });
-        editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                comments = new Comments(FirebaseAuth.getInstance().getCurrentUser().getDisplayName(),s.toString());
-
-            }
-        });
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                databaseReference.child("comment").child(title).push().setValue(comments).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful())
-                            Log.d(TAG, "onComplete: ");
-                        else Log.d(TAG, String.format("onComplete: %s", task.getException().toString()));
-                    }
-                });
-                commentAdapter.notifyDataSetChanged();
-            }
-        });
         commentAdapter = new CommentAdapter();
+        commentAdapter.setContext(this);
         Log.d(TAG, String.format("onCreate: %s", title));
 
         recyclerView.setAdapter(commentAdapter);

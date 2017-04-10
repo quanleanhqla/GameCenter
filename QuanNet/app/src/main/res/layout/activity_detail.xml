@@ -34,7 +34,6 @@
         android:layout_height="wrap_content">
 
         <EditText
-            android:focusableInTouchMode="false"
             android:id="@+id/et_cmt"
             android:hint="Write comment here..."
             android:layout_width="0dp"
@@ -205,13 +204,12 @@
 
                 <TextView
                     android:id="@+id/txt_computer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
                     android:layout_weight="1"
                     android:text="Xem số máy còn và đặt máy"
                     android:textAlignment="center"/>
             </LinearLayout>
-
             <View
                 android:layout_above="@id/ll2"
                 android:layout_width="match_parent"

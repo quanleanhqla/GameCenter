@@ -1,5 +1,6 @@
 package com.example.quanla.quannet.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,11 @@ import com.example.quanla.quannet.database.models.Comments;
  */
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentHolder> {
+    private Context context;
+
+    public void setContext(Context context){
+        this.context = context;
+    }
     @Override
     public CommentHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
@@ -28,8 +34,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentHolder> {
     @Override
     public void onBindViewHolder(CommentHolder holder, int position) {
         Comments comments = DbContextHot.instance.allComment().get(position);
-        if (comments!=new Comments("0","0"))
-        holder.bind(comments);
+        if (comments.getUri()!=null)
+        holder.bind(comments,context);
     }
 
     @Override
