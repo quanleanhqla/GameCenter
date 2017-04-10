@@ -6,11 +6,6 @@
     android:layout_height="match_parent"
     android:gravity="bottom"
     tools:context="com.example.quanla.quannet.activities.AccountActivity">
-    <view
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:layout_width="0dp"
-        android:layout_height="0dp"/>
     <com.google.android.gms.common.SignInButton
         android:layout_marginTop="10dp"
         android:layout_below="@+id/loginButton"
