@@ -1,55 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:gravity="bottom"
     tools:context="com.example.quanla.quannet.activities.AccountActivity">
-    <ImageView
-        android:scaleType="center"
-        android:src="@drawable/ic_profile"
+
+
+    <com.google.android.gms.common.SignInButton
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/loginButton"
+        android:id="@+id/im_gg"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"/>
+        android:layout_height="wrap_content"/>
 
-    <RelativeLayout
-        android:layout_marginTop="6dp"
+    <com.facebook.login.widget.LoginButton
+
+        android:id="@+id/loginButton"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="6" >
-        <ImageButton
-            android:id="@+id/im_fb"
-            android:src="@drawable/facebook"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <com.facebook.login.widget.LoginButton
-            android:layout_below="@+id/im_fb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/loginButton" />
-        <ImageButton
-            android:id="@+id/im_gg"
-            android:src="@drawable/google"
-            android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/next"
-            android:text="Bỏ Qua"
-            android:layout_marginBottom="100dp"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+       />
 
 
-    </RelativeLayout>
-
-
-
-
-
-
-</LinearLayout>
+</RelativeLayout>

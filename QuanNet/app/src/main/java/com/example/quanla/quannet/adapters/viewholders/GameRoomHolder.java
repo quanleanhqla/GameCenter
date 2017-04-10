@@ -18,10 +18,7 @@ import butterknife.ButterKnife;
  */
 
 public class GameRoomHolder extends RecyclerView.ViewHolder {
-    @BindView(R.id.tv_km)
-    TextView tvKm;
-    @BindView(R.id.iv_km)
-    ImageView ivKm;
+
     @BindView(R.id.iv_photo)
     ImageView imgPhoto;
     @BindView(R.id.tv_title)
@@ -63,8 +60,6 @@ public class GameRoomHolder extends RecyclerView.ViewHolder {
         tvTitle.setText(gameRoom.getTitle());
         tvAddress.setText(gameRoom.getAddress());
         tvRate.setText(gameRoom.getRate());
-        tvKm.setText(gameRoom.getKm()+" km");
-        ivKm.setImageResource(R.drawable.ic_cursor);
         ivSmoke.setImageResource(R.drawable.ic_smoke_free_black_24px);
         ivPark.setImageResource(R.drawable.ic_local_parking_black_24px);
         ivFood.setImageResource(R.drawable.ic_plate_fork_and_knife);

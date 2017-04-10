@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.quanla.quannet.R;
 import com.example.quanla.quannet.adapters.CommentAdapter;
@@ -42,7 +43,8 @@ public class CommentActivity extends AppCompatActivity {
     private static final String TAG = "CommenActivity";
     @BindView(R.id.rv_cmt)
     RecyclerView recyclerView;
-
+    @BindView(R.id.tv_cmt)
+    TextView textView;
     private DatabaseReference databaseReference;
     private String title;
     private CommentAdapter commentAdapter;
@@ -99,6 +101,9 @@ public class CommentActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(commentAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        if (DbContextHot.instance.comments.size()==0)
+            textView.setVisibility(View.VISIBLE);
+        else textView.setVisibility(View.INVISIBLE);
     }
 
 

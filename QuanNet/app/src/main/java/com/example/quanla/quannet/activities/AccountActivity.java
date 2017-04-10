@@ -24,6 +24,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -50,14 +51,12 @@ public class AccountActivity extends AppCompatActivity implements GoogleApiClien
 
 
     private DatabaseReference mDatabase;
-    @BindView(R.id.im_fb)
-    ImageButton imfb;
+
     @BindView(R.id.im_gg)
-    ImageButton imgg;
+    SignInButton imgg;
     @BindView(R.id.loginButton)
     LoginButton loginButton;
-    @BindView(R.id.next)
-    Button next;
+
 
     private static final String TAG = "AccountActivity";
     private static final int RC_SIGN_IN = 9001;
@@ -101,12 +100,6 @@ public class AccountActivity extends AppCompatActivity implements GoogleApiClien
         ButterKnife.bind(this);
         if (FirebaseAuth.getInstance().getCurrentUser()!= null)
             replaceActivity();
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                replaceActivity();
-            }
-        });
         mCallbackManager = CallbackManager.Factory.create();
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -258,6 +251,8 @@ public class AccountActivity extends AppCompatActivity implements GoogleApiClien
 
     }
     public void replaceActivity(){
+        if (FirebaseAuth.getInstance().getCurrentUser()!=null)
+            Toast.makeText(this,"Đặng Nhập thành công",Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this,CoreActivity.class);
         startActivity(intent);
     }
