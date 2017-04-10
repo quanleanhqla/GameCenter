@@ -1,5 +1,6 @@
 package com.example.quanla.quannet.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.location.Location;
 import android.net.Uri;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.quanla.quannet.R;
 import com.example.quanla.quannet.database.models.GameRoom;
@@ -34,26 +36,26 @@ public class NewActivity extends AppCompatActivity {
     @BindView(R.id.ib_photo)
     ImageButton imageButton;
 
-    @BindView(R.id.ll1)
-    LinearLayout ll1;
+    private ProgressDialog progressDialog;
 
-    @BindView(R.id.iv1)
-    ImageView iv1;
 
-    @BindView(R.id.iv2)
-    ImageView iv2;
-
-    @BindView(R.id.iv3)
-    ImageView iv3;
-
-    @BindView(R.id.iv4)
-    ImageView iv4;
-
-    @BindView(R.id.iv5)
-    ImageView iv5;
-
-    @BindView(R.id.iv6)
-    ImageView iv6;
+//    @BindView(R.id.iv1)
+//    ImageView iv1;
+//
+//    @BindView(R.id.iv2)
+//    ImageView iv2;
+//
+//    @BindView(R.id.iv3)
+//    ImageView iv3;
+//
+//    @BindView(R.id.iv4)
+//    ImageView iv4;
+//
+//    @BindView(R.id.iv5)
+//    ImageView iv5;
+//
+//    @BindView(R.id.iv6)
+//    ImageView iv6;
 
     @BindView(R.id.edt_title)
     EditText edtTitle;
@@ -80,6 +82,9 @@ public class NewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new);
 
         ButterKnife.bind(this);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Đang tải lên thông tin");
         databaseReference = FirebaseDatabase.getInstance().getReference();
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,8 +92,6 @@ public class NewActivity extends AppCompatActivity {
                 Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
                 galleryIntent.setType("image/*");
                 startActivityForResult(galleryIntent, GALLERY_REQUEST);
-                imageButton.setVisibility(View.GONE);
-                ll1.setVisibility(View.VISIBLE);
             }
         });
 
@@ -98,6 +101,8 @@ public class NewActivity extends AppCompatActivity {
                 address = edtAddress.getText().toString();
                 title = edtTitle.getText().toString();
                 Log.d(TAG, String.format("onClick: %s", address));
+                progressDialog.show();
+                progressDialog.setCancelable(false);
                 SmartLocation.with(NewActivity.this).geocoding().direct(address, new OnGeocodingListener() {
                     @Override
                     public void onLocationResolved(String s, List<LocationAddress> list) {
@@ -112,6 +117,7 @@ public class NewActivity extends AppCompatActivity {
                     }
                 });
 
+
             }
         });
     }
@@ -122,7 +128,7 @@ public class NewActivity extends AppCompatActivity {
 
         if(requestCode == GALLERY_REQUEST && resultCode == RESULT_OK){
             uriImage = data.getData();
-            iv1.setImageURI(uriImage);
+            imageButton.setImageURI(uriImage);
         }
     }
     private void upNewGameRoom(GameRoom gameRoom){
@@ -130,7 +136,9 @@ public class NewActivity extends AppCompatActivity {
         databaseReference.child("update").child(gameRoom.getTitle()).setValue(gameRoom).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
+                progressDialog.dismiss();
                 onBackPressed();
+                Toast.makeText(NewActivity.this, "Tin của bạn đang đợi duyệt", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "onComplete: ");
             }
         });

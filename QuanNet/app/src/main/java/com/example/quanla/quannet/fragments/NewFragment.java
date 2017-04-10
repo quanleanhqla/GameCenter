@@ -56,6 +56,8 @@ public class NewFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_new, container, false);
         ButterKnife.bind(this, view);
 
+        fab.setBackgroundColor(getResources().getColor(R.color.selected_item_color));
+
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

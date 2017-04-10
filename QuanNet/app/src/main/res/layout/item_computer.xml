@@ -17,6 +17,7 @@
             android:layout_height="match_parent" />
 
         <ImageView
+            android:layout_margin="6dp"
             android:id="@+id/iv_check"
             app:srcCompat="@drawable/ic_check_white_24px"
             android:layout_width="match_parent"
@@ -29,6 +30,7 @@
         android:id="@+id/txt_computer"
         android:layout_gravity="center_horizontal"
         android:text="Máy 1"
+        android:textColor="@color/guillotine_background"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

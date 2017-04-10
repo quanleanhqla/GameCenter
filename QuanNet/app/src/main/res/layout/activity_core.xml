@@ -42,7 +42,7 @@
 
         <Button
             android:id="@+id/btn_near"
-            android:background="#76FF03"
+            android:background="#6A1B9A"
             android:text="Tìm quanh đây"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -62,6 +62,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     app:tabSelectedTextColor="@color/selected_item_color"
+                    app:tabIndicatorColor="@color/selected_item_color"
                     app:tabTextColor="#000000"
 
                     >
