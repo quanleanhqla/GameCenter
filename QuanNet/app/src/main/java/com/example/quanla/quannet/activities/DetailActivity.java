@@ -1,12 +1,15 @@
 package com.example.quanla.quannet.activities;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -42,6 +45,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -59,6 +63,7 @@ public class DetailActivity extends AppCompatActivity{
     TextView tvAddress;
     @BindView(R.id.tv_title)
     TextView tvTitle;
+
     DatabaseReference databaseReference;
     PhotoAdapter photoAdapter;
     CommentAdapter commentAdapter;
@@ -96,6 +101,9 @@ public class DetailActivity extends AppCompatActivity{
                 startActivity(new Intent(DetailActivity.this,CommentActivity.class));
             }
         });
+        final android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24px);
     }
 
     @Override
@@ -128,8 +136,12 @@ public class DetailActivity extends AppCompatActivity{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.mn_location) {
-            Log.d(TAG, "onOptionsItemSelected");
+        if (item.getItemId() == android.R.id.home ){
+                onBackPressed();
+               return true;
+        }
+        else if (item.getItemId() == R.id.mn_location){
+                Log.d(TAG, "onOptionsItemSelected");
             EventBus.getDefault().postSticky(new MoveToMapEvent(gameRoom, MoveToMap.FROMDETAIL));
             startActivity(new Intent(DetailActivity.this, MapsActivity.class));
             return true;

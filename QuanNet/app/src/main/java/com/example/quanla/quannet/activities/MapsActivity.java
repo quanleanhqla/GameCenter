@@ -1,6 +1,7 @@
 package com.example.quanla.quannet.activities;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -60,6 +61,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     LocationRequest mLocationRequest;
     private GameRoom gameRoom;
     private MoveToMap moveToMap;
+    ProgressDialog progressDialog;
 
     private List<Polyline> polylines;
     private double mLatitude;
@@ -236,7 +238,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                 } else {
 
                     // Permission denied, Disable the functionality that depends on this permission.
-                    Toast.makeText(this, "permission denied", Toast.LENGTH_LONG).show();
                 }
                 return;
             }
@@ -270,8 +271,9 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             polyOptions.addAll(arrayList.get(i).getPoints());
             Polyline polyline = mMap.addPolyline(polyOptions);
             polyline.setColor(Color.parseColor("#2962FF"));
+            progressDialog.dismiss();
             polylines.add(polyline);
-            Toast.makeText(getApplicationContext(),"Route "+ (i+1) +": distance - "+ arrayList.get(i).getDistanceValue()+": duration - "+ arrayList.get(i).getDurationValue(),Toast.LENGTH_SHORT).show();
+
         }
 
     }
@@ -315,6 +317,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                 marker.showInfoWindow();
             }
         }
+        progressDialog = new ProgressDialog(this);
+        progressDialog.show();
         return false;
     }
 

@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:title="location"
-        android:icon="@drawable/ic_directions_white_24px"
-        android:id="@+id/mn_location"
-        app:showAsAction="always"
+        android:title="back"
+        android:icon="@drawable/ic_arrow_back_white_24px"
+        android:id="@+id/mn_back"
+        app:showAsAction="ifRoom"
         />
 </menu>
