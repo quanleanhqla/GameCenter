@@ -61,7 +61,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     LocationRequest mLocationRequest;
     private GameRoom gameRoom;
     private MoveToMap moveToMap;
-    ProgressDialog progressDialog;
+
 
     private List<Polyline> polylines;
     private double mLatitude;
@@ -271,11 +271,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             polyOptions.addAll(arrayList.get(i).getPoints());
             Polyline polyline = mMap.addPolyline(polyOptions);
             polyline.setColor(Color.parseColor("#2962FF"));
-            progressDialog.dismiss();
             polylines.add(polyline);
-
         }
-
     }
 
     @Override
@@ -293,6 +290,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                 .waypoints(start, end, end)
                 .build();
         routing.execute();
+
     }
 
 
@@ -317,8 +315,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                 marker.showInfoWindow();
             }
         }
-        progressDialog = new ProgressDialog(this);
-        progressDialog.show();
         return false;
     }
 

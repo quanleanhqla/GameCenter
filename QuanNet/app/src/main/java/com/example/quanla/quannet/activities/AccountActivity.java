@@ -154,6 +154,7 @@ public class AccountActivity extends AppCompatActivity implements GoogleApiClien
             }
         });
 
+
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
