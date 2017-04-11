@@ -101,7 +101,7 @@ public class AccountActivity extends AppCompatActivity implements GoogleApiClien
     private void setupUI() {
         ButterKnife.bind(this);
         progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Đang đăng nhập tài khoản");
+        progressDialog.setMessage("Đang đăng nhập tài khoản");
         if (FirebaseAuth.getInstance().getCurrentUser()!= null)
             replaceActivity();
         mCallbackManager = CallbackManager.Factory.create();
