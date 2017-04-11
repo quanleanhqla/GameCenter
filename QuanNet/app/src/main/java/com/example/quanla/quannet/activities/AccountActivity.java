@@ -1,5 +1,6 @@
 package com.example.quanla.quannet.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -56,7 +57,7 @@ public class AccountActivity extends AppCompatActivity implements GoogleApiClien
     SignInButton imgg;
     @BindView(R.id.loginButton)
     LoginButton loginButton;
-
+    ProgressDialog progressDialog;
 
 
     private static final String TAG = "AccountActivity";
@@ -99,6 +100,8 @@ public class AccountActivity extends AppCompatActivity implements GoogleApiClien
 
     private void setupUI() {
         ButterKnife.bind(this);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Đang đăng nhập tài khoản");
         if (FirebaseAuth.getInstance().getCurrentUser()!= null)
             replaceActivity();
         mCallbackManager = CallbackManager.Factory.create();
@@ -123,6 +126,7 @@ public class AccountActivity extends AppCompatActivity implements GoogleApiClien
         loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+                progressDialog.show();
                 Log.d(TAG, "facebook:onSuccess:" + loginResult);
                 handleFacebookAccessToken(loginResult.getAccessToken());
             }
@@ -151,6 +155,7 @@ public class AccountActivity extends AppCompatActivity implements GoogleApiClien
         imgg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressDialog.show();
                 signIn();
 
             }
@@ -195,6 +200,7 @@ public class AccountActivity extends AppCompatActivity implements GoogleApiClien
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
+                        progressDialog.dismiss();
                         replaceActivity();
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
@@ -217,6 +223,7 @@ public class AccountActivity extends AppCompatActivity implements GoogleApiClien
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
+                        progressDialog.dismiss();
                         replaceActivity();
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
