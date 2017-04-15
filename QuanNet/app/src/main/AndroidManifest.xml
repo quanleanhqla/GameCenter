@@ -19,13 +19,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="QuanGame"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/Theme.Guillotine">
         <activity android:name=".activities.AccountActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -46,13 +42,21 @@
         <activity
             android:name=".activities.MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".activities.CoreActivity">
-
-        </activity>
+        <activity android:name=".activities.CoreActivity"></activity>
         <activity android:name=".activities.DetailActivity" />
         <activity android:name=".activities.NewActivity" />
         <activity android:name=".activities.RoomActivity" />
-        <activity android:name=".activities.CommentActivity"></activity>
+        <activity android:name=".activities.CommentActivity" />
+        <activity
+            android:name=".activities.MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/Theme.Guillotine">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

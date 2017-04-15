@@ -1,43 +1,24 @@
 package com.example.quanla.quannet.activities;
 
-import android.Manifest;
-import android.app.ActionBar;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.quanla.quannet.R;
 import com.example.quanla.quannet.adapters.CommentAdapter;
-import com.example.quanla.quannet.adapters.PhotoAdapter;
-import com.example.quanla.quannet.database.DbContextHot;
 import com.example.quanla.quannet.database.models.Comments;
 import com.example.quanla.quannet.database.models.GameRoom;
 import com.example.quanla.quannet.events.ActivityReplaceEvent;
 import com.example.quanla.quannet.events.MoveToMap;
 import com.example.quanla.quannet.events.MoveToMapEvent;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.vision.text.Line;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -45,7 +26,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -65,7 +45,6 @@ public class DetailActivity extends AppCompatActivity{
     TextView tvTitle;
 
     DatabaseReference databaseReference;
-    PhotoAdapter photoAdapter;
     CommentAdapter commentAdapter;
     String comment;
     Comments comments;

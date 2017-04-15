@@ -73,7 +73,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.map);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
