@@ -122,7 +122,7 @@ public class DetailActivity extends AppCompatActivity{
         else if (item.getItemId() == R.id.mn_location){
                 Log.d(TAG, "onOptionsItemSelected");
             EventBus.getDefault().postSticky(new MoveToMapEvent(gameRoom, MoveToMap.FROMDETAIL));
-            startActivity(new Intent(DetailActivity.this, MapsActivity.class));
+//            startActivity(new Intent(DetailActivity.this, MapsActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

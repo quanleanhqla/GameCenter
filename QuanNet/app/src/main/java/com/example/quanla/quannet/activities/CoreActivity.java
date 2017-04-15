@@ -139,13 +139,13 @@ public class CoreActivity extends AppCompatActivity {
         llProfile =(LinearLayout) guillotineMenu.findViewById(R.id.profile_group);
         btnNear = (Button) findViewById(R.id.btn_near);
 
-        btnNear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EventBus.getDefault().postSticky(new MoveToMapEvent(MoveToMap.FROMNEARME));
-                startActivity(new Intent(CoreActivity.this, MapsActivity.class));
-            }
-        });
+//        btnNear.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                EventBus.getDefault().postSticky(new MoveToMapEvent(MoveToMap.FROMNEARME));
+//                startActivity(new Intent(CoreActivity.this, MapsActivity.class));
+//            }
+//        });
 
         llProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,13 +156,13 @@ public class CoreActivity extends AppCompatActivity {
 
         llNear = (LinearLayout) guillotineMenu.findViewById(R.id.near_group);
 
-        llNear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EventBus.getDefault().postSticky(new MoveToMapEvent(MoveToMap.FROMNEARME));
-                startActivity(new Intent(CoreActivity.this, MapsActivity.class));
-            }
-        });
+//        llNear.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                EventBus.getDefault().postSticky(new MoveToMapEvent(MoveToMap.FROMNEARME));
+//                startActivity(new Intent(CoreActivity.this, MapsActivity.class));
+//            }
+//        });
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);

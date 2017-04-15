@@ -1,7 +1,6 @@
 package com.example.quanla.quannet.activities;
 
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -12,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -33,6 +33,9 @@ import com.example.quanla.quannet.database.models.GameRoom;
 import com.example.quanla.quannet.events.ActivityReplaceEvent;
 import com.example.quanla.quannet.events.MoveToMap;
 import com.example.quanla.quannet.events.MoveToMapEvent;
+import com.example.quanla.quannet.events.ReplaceFragmentEvent;
+import com.example.quanla.quannet.fragments.HotFragment;
+import com.example.quanla.quannet.fragments.NewFragment;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -48,11 +51,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -73,16 +71,12 @@ public class MainActivity extends AppCompatActivity
     LocationRequest mLocationRequest;
     private GameRoom gameRoom;
     private MoveToMap moveToMap;
-    final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    DatabaseReference databaseReference = firebaseDatabase.getReference();
-    String[] allName = {"Playdota Stadium", "Cybox Game Center", "Vikings Gaming", "Pegasus Club Center","GameHome","Gaming House","Imba eSports Stadium","Monaco Game","Colosseum Gaming Center","Only One Airport Gaming","Epic Gaming Center","Game Vip","G5 E-Sport Center","Moon Game", "Nhiệt Game", "Royal Gaming","Arena Gaming Center","Cyzone","H3 Cyber Gaming","Clan 105"};
 
 
     private List<Polyline> polylines;
     private double mLatitude;
     private double mLongitude;
     private final String TAG = "Test";
-    private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,10 +85,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -115,37 +105,8 @@ public class MainActivity extends AppCompatActivity
 
         polylines = new ArrayList<>();
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                progressDialog.dismiss();
-//                GameRoom gameRoom = dataSnapshot.child("360 Game").getValue(GameRoom.class);
-//                GameRoom gameRoom1 = dataSnapshot.child("Auto Game").getValue(GameRoom.class);
-//                DbContextHot.instance.add(gameRoom);
-//                DbContextHot.instance.add(gameRoom1);
-                for(int i=0; i<allName.length; i++){
-                    GameRoom gameRoom = dataSnapshot.child("hot").child(allName[i]).getValue(GameRoom.class);
-                    Log.d(TAG, String.format("DCM: %s", gameRoom));
-//                    Location dest = new Location("Dest");
-//                    dest.setLatitude(gameRoom.getLatitude());
-//                    dest.setLongitude(gameRoom.getLongitude());
-//                    float km = mLastLocation.distanceTo(dest);
-//                    gameRoom.setKm(km);
-                    DbContextHot.instance.add(gameRoom);
-                }
-//                for (GameRoom gameRoom : DbContextHot.instance.getAllRooms())
-//                    databaseReference.child("comment").child(gameRoom.getTitle()).push().setValue(new Comments("0","0"));
-                Log.d(TAG, String.format("%s", dataSnapshot.child("hot").child("Playdota Stadium").getValue(GameRoom.class)));
-                Log.d(TAG, (String.format("%s", DbContextHot.instance.getAllRooms().get(0).toString())));
 
 
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
 
     @Override
@@ -158,27 +119,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -186,17 +126,22 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.near) {
+
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.top) {
+            HotFragment hotFragment = new HotFragment();
+            replaceFragment(hotFragment, false);
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.sale) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.newone) {
+            NewFragment newFragment = new NewFragment();
+            replaceFragment(newFragment, false);
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.account) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.setting) {
 
         }
 
@@ -232,7 +177,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onRoutingSuccess(ArrayList<Route> arrayList, int index) {
         polylines = new ArrayList<>();
-        //add route(s) to the map.
+        //add route(s) to the fl.
         for (int i = 0; i <arrayList.size(); i++) {
 
             //In case of more than 5 alternative routes
@@ -291,7 +236,7 @@ public class MainActivity extends AppCompatActivity
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         mCurrLocationMarker = mMap.addMarker(markerOptions);
 
-        //move map camera
+        //move fl camera
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
 
@@ -302,19 +247,8 @@ public class MainActivity extends AppCompatActivity
         Location start = new Location("Start");
         start.setLatitude(mLatitude);
         start.setLongitude(mLongitude);
-        if(mMap!=null) {
-            for (com.example.quanla.quannet.database.models.GameRoom l : DbContextHot.instance.getAllRooms()) {
-                Location dest = new Location(l.getTitle());
-                dest.setLatitude(l.getLatitude());
-                dest.setLongitude(l.getLongitude());
-                if (start.distanceTo(dest) <= 10000) {
-                    mMap.addMarker(new MarkerOptions().position(new LatLng(l.getLatitude(), l.getLongitude())).title(l.getTitle()).draggable(true).visible(true));
-                }
-            }
-        }
-        Log.d(TAG, String.format("abc %s", DbContextHot.instance.getAllRooms().toString()));
-
-        //setGGMap();
+        moveToMap=MoveToMap.FROMNEARME;
+        setGGMap();
     }
 
     @Override
@@ -485,5 +419,26 @@ public class MainActivity extends AppCompatActivity
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void replace(ActivityReplaceEvent activityReplaceEvent){
         startActivity(new Intent(MainActivity.this, DetailActivity.class));
+    }
+
+    @Subscribe
+    public void replaceFragment(ReplaceFragmentEvent fragmentReplaceEvent){
+        replaceFragment(fragmentReplaceEvent.getFragment(), fragmentReplaceEvent.isAddToBackStack());
+    }
+
+    public void replaceFragment(Fragment fragment, boolean addToBackStack){
+        if(addToBackStack) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fl1, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
+        else{
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fl1, fragment)
+                    .commit();
+        }
     }
 }
