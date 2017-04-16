@@ -20,7 +20,7 @@
             android:title="Mới mở cửa" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Khác">
         <menu>
             <item
                 android:id="@+id/account"

@@ -20,12 +20,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.quanla.quannet.R;
-import com.example.quanla.quannet.activities.DetailActivity;
 import com.example.quanla.quannet.adapters.HotAdapter;
 import com.example.quanla.quannet.database.DbContextHot;
 import com.example.quanla.quannet.database.models.Comments;
 import com.example.quanla.quannet.database.models.GameRoom;
 import com.example.quanla.quannet.events.ActivityReplaceEvent;
+import com.example.quanla.quannet.events.ReplaceFragmentEvent;
 import com.google.android.gms.location.LocationListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -126,7 +126,9 @@ public class HotFragment extends Fragment implements LocationListener {
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void replace(ActivityReplaceEvent activityReplaceEvent){
-        startActivity(new Intent(this.getActivity(), DetailActivity.class));
+        EventBus.getDefault().post(new ReplaceFragmentEvent(new DetailFragment(), true));
+
+
     }
 
     @Override

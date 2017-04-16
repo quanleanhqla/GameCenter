@@ -262,7 +262,7 @@ public class AccountActivity extends AppCompatActivity implements GoogleApiClien
     public void replaceActivity(){
         if (FirebaseAuth.getInstance().getCurrentUser()!=null)
             Toast.makeText(this,"Đặng Nhập thành công",Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this,CoreActivity.class);
+        Intent intent = new Intent(this,MainActivity.class);
         startActivity(intent);
     }
 }

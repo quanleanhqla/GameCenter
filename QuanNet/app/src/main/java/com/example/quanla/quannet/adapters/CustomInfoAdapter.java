@@ -50,4 +50,5 @@ public class CustomInfoAdapter implements GoogleMap.InfoWindowAdapter {
 
         return row;
     }
+
 }

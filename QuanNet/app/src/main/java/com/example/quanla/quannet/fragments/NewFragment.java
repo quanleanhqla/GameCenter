@@ -19,11 +19,17 @@ import com.example.quanla.quannet.database.DbContextHot;
 import com.example.quanla.quannet.database.DbContextNew;
 import com.example.quanla.quannet.database.models.Comments;
 import com.example.quanla.quannet.database.models.GameRoom;
+import com.example.quanla.quannet.events.ActivityReplaceEvent;
+import com.example.quanla.quannet.events.ReplaceFragmentEvent;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -92,6 +98,24 @@ public class NewFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         return view;
 
+    }
+
+    @Override
+    public void onStart() {
+        EventBus.getDefault().register(this);
+        super.onStart();
+    }
+
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void replace(ActivityReplaceEvent activityReplaceEvent){
+        EventBus.getDefault().post(new ReplaceFragmentEvent(new DetailFragment(), true));
+
+
+    }
+    @Override
+    public void onPause() {
+        EventBus.getDefault().unregister(this);
+        super.onPause();
     }
 
     @OnClick(R.id.fab)

@@ -19,7 +19,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="QuanGame"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Guillotine">
+        android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".activities.AccountActivity"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -37,15 +37,12 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".activities.CoreActivity" />
         <activity android:name=".activities.DetailActivity" />
         <activity android:name=".activities.NewActivity" />
         <activity android:name=".activities.RoomActivity" />
         <activity android:name=".activities.CommentActivity" />
         <activity
-            android:name=".activities.MainActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/Theme.Guillotine">
+            android:name=".activities.MainActivity">
 
         </activity>
         <activity android:name=".activities.InitialActivity">
