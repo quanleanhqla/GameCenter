@@ -1,0 +1,109 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.example.quanla.quannet.fragments.ComFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <ImageView
+        android:src="@drawable/quannet"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="fitXY"
+        android:id="@+id/iv_image"/>
+
+    <TextView
+        android:id="@+id/may"
+        android:textColor="#000000"
+        android:layout_marginStart="10dp"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/iv_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Còn 6 máy"/>
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/may"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:id="@+id/v1"
+        android:layout_marginTop="15dp"
+        android:layout_below="@id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#9E9E9E"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_centerHorizontal="true"
+        android:id="@+id/rv"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/v1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:padding="2dp"
+        android:id="@+id/ll4"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="4dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/rv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <View
+            android:layout_marginEnd="5dp"
+            android:layout_gravity="center"
+            android:background="@color/guillotine_background"
+            android:layout_width="10dp"
+            android:layout_height="10dp"/>
+        <TextView
+            android:textSize="10sp"
+            android:layout_gravity="center"
+            android:text="đang dùng"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginEnd="10dp"
+        android:padding="2dp"
+        android:layout_marginTop="10dp"
+        android:layout_toStartOf="@id/ll4"
+        android:layout_below="@id/rv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <View
+            android:layout_marginEnd="5dp"
+            android:layout_gravity="center"
+            android:background="#9E9E9E"
+            android:layout_width="10dp"
+            android:layout_height="10dp"/>
+        <TextView
+            android:textSize="10sp"
+            android:layout_gravity="center"
+            android:text="chưa dùng"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bt_call"
+        android:textColor="#ffffff"
+        android:background="@color/guillotine_background"
+        android:text="Gọi và đặt"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

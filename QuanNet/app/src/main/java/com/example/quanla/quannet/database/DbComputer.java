@@ -16,15 +16,20 @@ public class DbComputer {
     public ArrayList<Computer> getComputerArrayList(){
         computerArrayList = new ArrayList<>();
         computerArrayList.add(new Computer(false, 1));
-        computerArrayList.add(new Computer(false, 2));
-        computerArrayList.add(new Computer(false, 3));
+        computerArrayList.add(new Computer(true, 2));
+        computerArrayList.add(new Computer(true, 3));
         computerArrayList.add(new Computer(false, 4));
-        computerArrayList.add(new Computer(true, 5));
+        computerArrayList.add(new Computer(false, 5));
         computerArrayList.add(new Computer(false, 6));
-        computerArrayList.add(new Computer(false, 7));
+        computerArrayList.add(new Computer(true, 7));
+        computerArrayList.add(new Computer(true, 13));
+        computerArrayList.add(new Computer(true, 14));
+        computerArrayList.add(new Computer(true, 15));
         computerArrayList.add(new Computer(false, 8));
-        computerArrayList.add(new Computer(true, 9));
-        computerArrayList.add(new Computer(false, 10));
+        computerArrayList.add(new Computer(false, 9));
+        computerArrayList.add(new Computer(true, 10));
+        computerArrayList.add(new Computer(true, 11));
+        computerArrayList.add(new Computer(true, 12));
         return  computerArrayList;
     }
 }

@@ -131,12 +131,19 @@
                     android:layout_height="wrap_content">
 
                     <Button
+                        android:layout_marginEnd="5dp"
+                        android:textColor="#ffffff"
+                        android:background="@color/guillotine_background"
                         android:text="Đặt chỗ"
                         android:id="@+id/call"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
                     <Button
+                        android:elevation="0dp"
+                        android:layout_marginStart="5dp"
+                        android:textColor="@color/guillotine_background"
+                        android:background="#00000000"
                         android:text="xem máy còn (6)"
                         android:id="@+id/computer"
                         android:layout_width="wrap_content"

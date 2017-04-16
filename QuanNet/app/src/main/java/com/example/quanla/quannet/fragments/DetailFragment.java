@@ -13,9 +13,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.quanla.quannet.R;
+import com.example.quanla.quannet.activities.MainActivity;
 import com.example.quanla.quannet.adapters.PhotoAdapter;
 import com.example.quanla.quannet.database.models.GameRoom;
 import com.example.quanla.quannet.events.ActivityReplaceEvent;
+import com.example.quanla.quannet.events.ReplaceFragmentEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -61,6 +63,15 @@ public class DetailFragment extends Fragment {
         PhotoAdapter photoAdapter = new PhotoAdapter();
         rv_anh.setAdapter(photoAdapter);
         rv_anh.setLayoutManager(new LinearLayoutManager(this.getContext(),LinearLayoutManager.HORIZONTAL, false));
+
+
+
+        btn_computer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new ReplaceFragmentEvent(new ComFragment(), true));
+            }
+        });
         return view;
     }
 
@@ -81,7 +92,14 @@ public class DetailFragment extends Fragment {
         gameRoom = activityReplaceEvent.getGameRoom();
         tv_address.setText(activityReplaceEvent.getGameRoom().getAddress());
         tv_title.setText(activityReplaceEvent.getGameRoom().getTitle());
-        EventBus.getDefault().removeAllStickyEvents();
+        if(getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).getSupportActionBar().setTitle(gameRoom.getTitle());
+        }
+    }
 
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().removeAllStickyEvents();
+        super.onDestroy();
     }
 }

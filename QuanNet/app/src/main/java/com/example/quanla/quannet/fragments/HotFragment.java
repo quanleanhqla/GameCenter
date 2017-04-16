@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.quanla.quannet.R;
+import com.example.quanla.quannet.activities.MainActivity;
 import com.example.quanla.quannet.adapters.HotAdapter;
 import com.example.quanla.quannet.database.DbContextHot;
 import com.example.quanla.quannet.database.models.Comments;
@@ -71,6 +72,10 @@ public class HotFragment extends Fragment implements LocationListener {
         ButterKnife.bind(this, view);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
+        }
+
+        if(getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).getSupportActionBar().setTitle("Top phòng máy");
         }
 
         progressDialog = new ProgressDialog(this.getContext());

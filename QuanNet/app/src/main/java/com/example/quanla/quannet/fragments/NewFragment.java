@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.quanla.quannet.R;
+import com.example.quanla.quannet.activities.MainActivity;
 import com.example.quanla.quannet.activities.NewActivity;
 import com.example.quanla.quannet.adapters.NewAdapter;
 import com.example.quanla.quannet.database.DbContextHot;
@@ -63,6 +64,10 @@ public class NewFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         fab.setBackgroundColor(getResources().getColor(R.color.selected_item_color));
+
+        if(getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).getSupportActionBar().setTitle("Mới mở cửa");
+        }
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override

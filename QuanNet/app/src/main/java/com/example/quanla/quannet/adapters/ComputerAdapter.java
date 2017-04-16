@@ -30,6 +30,11 @@ public class ComputerAdapter extends RecyclerView.Adapter<ComputerHolder> {
         Computer computer = DbComputer.instance.getComputerArrayList().get(position);
 
         holder.bind(computer);
+
+        if(position==7 || position==8 || position==9){
+            holder.ivComputer.setVisibility(View.INVISIBLE);
+            holder.txtComputer.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
