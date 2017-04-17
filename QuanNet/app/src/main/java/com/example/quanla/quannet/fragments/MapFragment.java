@@ -28,6 +28,7 @@ import com.example.quanla.quannet.activities.MainActivity;
 import com.example.quanla.quannet.adapters.CustomInfoAdapter;
 import com.example.quanla.quannet.database.DbContextHot;
 import com.example.quanla.quannet.database.models.GameRoom;
+import com.example.quanla.quannet.events.ActivityReplaceEvent;
 import com.example.quanla.quannet.events.MoveToMap;
 import com.example.quanla.quannet.events.MoveToMapEvent;
 import com.google.android.gms.common.ConnectionResult;
@@ -50,6 +51,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,7 +117,6 @@ public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickList
 
             }
         });
-        EventBus.getDefault().register(this);
 
         polylines = new ArrayList<>();
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -127,6 +128,13 @@ public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickList
         }
         return rootView;
     }
+
+    @Override
+    public void onStart() {
+        EventBus.getDefault().register(this);
+        super.onStart();
+    }
+
 
     public void check(Context context){
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -234,7 +242,6 @@ public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickList
         Location start = new Location("Start");
         start.setLatitude(mLatitude);
         start.setLongitude(mLongitude);
-        moveToMap=MoveToMap.FROMNEARME;
         setGGMap();
     }
 
@@ -263,13 +270,6 @@ public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickList
     }
 
 
-    @Subscribe(sticky = true)
-    public void getMarker(MoveToMapEvent activityReplaceEvent){
-        gameRoom = activityReplaceEvent.getGameRoom();
-        moveToMap = activityReplaceEvent.getMoveToMap();
-        EventBus.getDefault().removeAllStickyEvents();
-
-    }
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     public boolean checkLocationPermission(){
@@ -303,6 +303,19 @@ public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickList
         }
     }
 
+
+
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void getGameRoom(ActivityReplaceEvent activityReplaceEvent){
+        gameRoom = activityReplaceEvent.getGameRoom();
+        moveToMap = MoveToMap.FROMDETAIL;
+
+        Log.d(TAG, String.format("d c m %s", gameRoom.toString()));
+        if(getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).getSupportActionBar().setTitle(gameRoom.getTitle());
+        }
+    }
+
     public void setGGMap(){
         Location start = new Location("Start");
         start.setLatitude(mLatitude);
@@ -315,19 +328,20 @@ public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickList
                 dest.setLongitude(gameRoom.getLongitude());
                 double kilomet = start.distanceTo(dest)/1000;
                 Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(gameRoom.getLatitude(), gameRoom.getLongitude())).title(gameRoom.getTitle()).draggable(true).visible(true));
+                marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.imac));
                 direction(new com.example.quanla.quannet.database.models.GameRoom(gameRoom.getLatitude(), gameRoom.getLongitude()));
                 mMap.setInfoWindowAdapter(new CustomInfoAdapter(this.getActivity(),gameRoom,kilomet));
                 marker.showInfoWindow();
             }
         }
-        else if(moveToMap==MoveToMap.FROMNEARME){
+        else {
             if(mMap!=null) {
                 for (com.example.quanla.quannet.database.models.GameRoom l : DbContextHot.instance.getAllRooms()) {
                     Location dest = new Location(l.getTitle());
                     dest.setLatitude(l.getLatitude());
                     dest.setLongitude(l.getLongitude());
                     if (start.distanceTo(dest) <= 10000) {
-                        mMap.addMarker(new MarkerOptions().position(new LatLng(l.getLatitude(), l.getLongitude())).title(l.getTitle()).draggable(true).visible(true));
+                        mMap.addMarker(new MarkerOptions().position(new LatLng(l.getLatitude(), l.getLongitude())).title(l.getTitle()).draggable(true).visible(true).icon(BitmapDescriptorFactory.fromResource(R.drawable.imac)));
                     }
                 }
             }

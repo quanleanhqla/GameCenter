@@ -6,11 +6,15 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,6 +25,7 @@ import com.example.quanla.quannet.R;
 import com.example.quanla.quannet.adapters.ComputerAdapter;
 import com.example.quanla.quannet.database.models.GameRoom;
 import com.example.quanla.quannet.events.ActivityReplaceEvent;
+import com.example.quanla.quannet.events.ReplaceFragmentEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -51,7 +56,6 @@ public class ComFragment extends Fragment {
     public ComFragment() {
         // Required empty public constructor
     }
-
 
 
     @Override
@@ -110,12 +114,38 @@ public class ComFragment extends Fragment {
                     new String[]{Manifest.permission.CALL_PHONE},   //request specific permission from user
                     10);
             return;
-        }else {     //have got permission
-            try{
+        } else {     //have got permission
+            try {
                 startActivity(callIntent);  //call activity and make phone call
+            } catch (android.content.ActivityNotFoundException ex) {
+                Toast.makeText(getApplicationContext(), "yourActivity is not founded", Toast.LENGTH_SHORT).show();
             }
-            catch (android.content.ActivityNotFoundException ex){
-                Toast.makeText(getApplicationContext(),"yourActivity is not founded", Toast.LENGTH_SHORT).show();
-            }
-        }    }
+        }
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Do something that differs the Activity's menu here
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.location_menu, menu);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId()==R.id.mn_location){
+            EventBus.getDefault().post(new ReplaceFragmentEvent(new MapFragment(), true));
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }

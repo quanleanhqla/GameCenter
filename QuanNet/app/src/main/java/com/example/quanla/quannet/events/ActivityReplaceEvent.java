@@ -8,6 +8,7 @@ import com.example.quanla.quannet.database.models.GameRoom;
 
 public class ActivityReplaceEvent {
     private GameRoom gameRoom;
+    private MoveToMap moveToMap;
 
     public ActivityReplaceEvent() {
     }
