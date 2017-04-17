@@ -1,12 +1,14 @@
 package com.example.quanla.quannet.adapters;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.quanla.quannet.R;
 import com.example.quanla.quannet.database.models.GameRoom;
@@ -47,6 +49,12 @@ public class CustomInfoAdapter implements GoogleMap.InfoWindowAdapter {
         TextView tvName = (TextView) row.findViewById(R.id.tv_name);
 
         TextView tvDiaChi = (TextView) row.findViewById(R.id.tv_diachi);
+        row.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS", "onClick: ");
+            }
+        });
 
         ratingBar.setRating((float) gameRoom.getRate());
 

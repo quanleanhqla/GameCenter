@@ -33,32 +33,32 @@
 
     <RatingBar
         android:id="@+id/rtb_map"
-        style="?android:attr/ratingBarStyleIndicator"
+        style="?android:attr/ratingBarStyleSmall"
         android:progressTint="#FFD600"
         android:layout_below="@id/tv_diachi"
         android:layout_toEndOf="@+id/imageView"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <ImageView
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginStart="80dp"
         android:layout_below="@+id/tv_diachi"
         android:layout_toRightOf="@+id/rtb_map"
         android:id="@+id/smoke"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <ImageView
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="7dp"
         android:layout_below="@+id/tv_diachi"
         android:layout_toEndOf="@+id/smoke"
         android:id="@+id/parking"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <ImageView
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="7dp"
         android:layout_toEndOf="@+id/parking"
         android:layout_below="@+id/tv_diachi"
         android:id="@+id/food"
