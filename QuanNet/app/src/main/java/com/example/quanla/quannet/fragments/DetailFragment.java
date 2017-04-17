@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.quanla.quannet.R;
@@ -45,6 +46,40 @@ public class DetailFragment extends Fragment {
 
     @BindView(R.id.rv_anh)
     RecyclerView rv_anh;
+
+    @BindView(R.id.tv_quadem)
+    TextView tv_quadem;
+
+    @BindView(R.id.iv_smoke)
+    ImageView iv_smoke;
+
+    @BindView(R.id.tv_hutthuoc)
+    TextView tv_smoke;
+
+    @BindView(R.id.iv_park)
+    ImageView iv_park;
+
+    @BindView(R.id.tv_park)
+    TextView tv_park;
+
+    @BindView(R.id.iv_food)
+    ImageView iv_food;
+
+    @BindView(R.id.tv_food)
+    TextView tv_food;
+
+    @BindView(R.id.tv_momey)
+    TextView tv_money;
+
+    @BindView(R.id.vv)
+    View vv;
+
+    @BindView(R.id.tv_khuyenmai)
+    TextView tv_khuyenmai;
+
+    @BindView(R.id.tv_rate)
+    TextView tv_rate;
+
 
     private GameRoom gameRoom;
 
@@ -92,6 +127,27 @@ public class DetailFragment extends Fragment {
         gameRoom = activityReplaceEvent.getGameRoom();
         tv_address.setText(activityReplaceEvent.getGameRoom().getAddress());
         tv_title.setText(activityReplaceEvent.getGameRoom().getTitle());
+        tv_money.setText(gameRoom.getMoney());
+        tv_rate.setText(gameRoom.getRate()+"");
+        if(gameRoom.getKhuyenmai()!=null){
+            vv.setVisibility(View.VISIBLE);
+            tv_khuyenmai.setVisibility(View.VISIBLE);
+        }
+        if(!gameRoom.isCanFood()){
+            iv_food.setImageResource(R.drawable.ic_noplate_fork_and_knife);
+            tv_food.setText("Không đồ ăn");
+        }
+        if(!gameRoom.isCanNight()){
+            tv_quadem.setText("Không qua đêm");
+        }
+        if(!gameRoom.isCanPark()){
+            iv_park.setImageResource(R.drawable.ic_noparking_sign_);
+            tv_park.setText("Không chỗ để xe");
+        }
+        if(!gameRoom.isCanSmoke()){
+            iv_smoke.setImageResource(R.drawable.ic_no_cigarette);
+            tv_smoke.setText("Không hút thuốc");
+        }
         if(getActivity() instanceof MainActivity) {
             ((MainActivity) getActivity()).getSupportActionBar().setTitle(gameRoom.getTitle());
         }

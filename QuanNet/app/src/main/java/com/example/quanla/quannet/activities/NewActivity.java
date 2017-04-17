@@ -109,7 +109,7 @@ public class NewActivity extends AppCompatActivity {
                         if (list.size()>0){
                             location = list.get(0).getLocation();
                             Log.d(TAG, String.format("onLocationResolved: %s", location.toString()));
-                            GameRoom gameRoom = new GameRoom(null,title,address,"good",location.getLatitude(),location.getLongitude());
+                            GameRoom gameRoom = new GameRoom(null,title,address,5.0,location.getLatitude(),location.getLongitude());
                             Log.d(TAG, String.format("onLocationResolved: %s", gameRoom));
                             upNewGameRoom(gameRoom);
                         }

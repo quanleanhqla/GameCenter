@@ -49,17 +49,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <RelativeLayout
+                <LinearLayout
                     android:id="@+id/rl1"
-                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="20dp"
                     android:layout_below="@id/tv_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <LinearLayout
+                        android:gravity="center"
                         android:id="@+id/ll1"
-                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content">
 
                         <ImageView
@@ -81,11 +82,11 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:gravity="center"
+                        android:layout_weight="1"
                         android:id="@+id/ll2"
-                        android:layout_marginStart="50dp"
                         android:orientation="vertical"
-                        android:layout_toEndOf="@id/ll1"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content">
 
                         <LinearLayout
@@ -110,7 +111,7 @@
                         </LinearLayout>
 
                         <TextView
-                            android:layout_marginStart="29dp"
+                            android:id="@+id/tv_quadem"
                             android:textColor="#000000"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -119,8 +120,30 @@
 
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content">
 
-                </RelativeLayout>
+                        <ImageView
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/ic_thumb_up_white_24px" />
+
+                        <TextView
+                            android:textColor="#000000"
+                            android:layout_marginLeft="5dp"
+                            android:layout_gravity="center"
+                            android:text="5.0"
+                            android:id="@+id/tv_rate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_marginBottom="5dp"
@@ -180,17 +203,19 @@
                         android:layout_height="wrap_content">
 
                         <ImageView
+                            android:id="@+id/iv_smoke"
                             android:layout_gravity="center_horizontal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:srcCompat="@drawable/ic_cigarette"/>
                         <TextView
+                            android:id="@+id/tv_hutthuoc"
                             android:layout_marginTop="5dp"
                             android:textColor="#000000"
                             android:layout_gravity="center_horizontal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Không hút thuốc"/>
+                            android:text="Được hút thuốc"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -200,11 +225,13 @@
                         android:layout_height="wrap_content">
 
                         <ImageView
+                            android:id="@+id/iv_park"
                             android:layout_gravity="center_horizontal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:srcCompat="@drawable/ic_parking_sign"/>
                         <TextView
+                            android:id="@+id/tv_park"
                             android:layout_marginTop="5dp"
                             android:textColor="#000000"
                             android:layout_gravity="center_horizontal"
@@ -220,11 +247,13 @@
                         android:layout_height="wrap_content">
 
                         <ImageView
+                            android:id="@+id/iv_food"
                             android:layout_gravity="center_horizontal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:srcCompat="@drawable/ic_food"/>
                         <TextView
+                            android:id="@+id/tv_food"
                             android:layout_marginTop="5dp"
                             android:textColor="#000000"
                             android:layout_gravity="center_horizontal"
@@ -234,6 +263,25 @@
                     </LinearLayout>
 
                 </LinearLayout>
+
+                <View
+                    android:visibility="gone"
+                    android:id="@+id/vv"
+                    android:background="#9E9E9E"
+                    android:layout_below="@id/ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_khuyenmai"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="#000000"
+                    android:text="Tin khuyến mãi"
+                    android:layout_below="@id/vv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
             </RelativeLayout>
 
         </android.support.v7.widget.CardView>

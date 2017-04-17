@@ -24,6 +24,7 @@ import com.directions.route.RouteException;
 import com.directions.route.Routing;
 import com.directions.route.RoutingListener;
 import com.example.quanla.quannet.R;
+import com.example.quanla.quannet.activities.MainActivity;
 import com.example.quanla.quannet.adapters.CustomInfoAdapter;
 import com.example.quanla.quannet.database.DbContextHot;
 import com.example.quanla.quannet.database.models.GameRoom;
@@ -119,6 +120,10 @@ public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickList
         polylines = new ArrayList<>();
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
+        }
+
+        if(getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).getSupportActionBar().setTitle("Cứu net pro");
         }
         return rootView;
     }

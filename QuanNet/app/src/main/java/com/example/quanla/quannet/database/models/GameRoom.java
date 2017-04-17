@@ -12,13 +12,17 @@ import java.util.Map;
  */
 
 public class GameRoom {
+    private String khuyenmai;
     private float km;
+    private String money;
+    private boolean canNight;
     private boolean canSmoke;
     private boolean canPark;
+    private boolean canFood;
     private String urlImage;
     private String title;
     private String address;
-    private String rate;
+    private double rate;
 //    private int[] mayCon =  {6, 13, 20};
     private double latitude;
     private double longitude;
@@ -40,7 +44,7 @@ public class GameRoom {
         this.longitude = longitude;
     }
 
-    public GameRoom(String urlImage, String title, String address, String rate, double latitude, double longitude) {
+    public GameRoom(String urlImage, String title, String address, double rate, double latitude, double longitude) {
         this.address = address;
         this.rate = rate;
         this.title = title;
@@ -49,7 +53,45 @@ public class GameRoom {
         this.longitude = longitude;
     }
 
+    public boolean isCanNight() {
+        return canNight;
+    }
 
+    public String getKhuyenmai() {
+        return khuyenmai;
+    }
+
+    public void setKhuyenmai(String khuyenmai) {
+        this.khuyenmai = khuyenmai;
+    }
+
+    public void setCanNight(boolean canNight) {
+        this.canNight = canNight;
+    }
+
+    public String getMoney() {
+        return money;
+    }
+
+    public void setMoney(String money) {
+        this.money = money;
+    }
+
+    public boolean isCanFood() {
+        return canFood;
+    }
+
+    public void setCanFood(boolean canFood) {
+        this.canFood = canFood;
+    }
+
+    public ArrayList<Comments> getComment() {
+        return comment;
+    }
+
+    public void setComment(ArrayList<Comments> comment) {
+        this.comment = comment;
+    }
 
     public String getAddress() {
         return address;
@@ -59,11 +101,11 @@ public class GameRoom {
         this.address = address;
     }
 
-    public String getRate() {
+    public double getRate() {
         return rate;
     }
 
-    public void setRate(String rate) {
+    public void setRate(double rate) {
         this.rate = rate;
     }
 

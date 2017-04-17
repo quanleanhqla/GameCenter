@@ -59,7 +59,7 @@ public class GameRoomHolder extends RecyclerView.ViewHolder {
         imgPhoto.setImageResource(R.drawable.gaixinh);
         tvTitle.setText(gameRoom.getTitle());
         tvAddress.setText(gameRoom.getAddress());
-        tvRate.setText(gameRoom.getRate());
+        tvRate.setText(gameRoom.getRate()+"");
         ivSmoke.setImageResource(R.drawable.ic_smoke_free_black_24px);
         ivPark.setImageResource(R.drawable.ic_local_parking_black_24px);
         ivFood.setImageResource(R.drawable.ic_plate_fork_and_knife);
