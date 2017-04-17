@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.quanla.quannet.R;
@@ -36,15 +37,24 @@ public class CustomInfoAdapter implements GoogleMap.InfoWindowAdapter {
     public View getInfoContents(Marker marker) {
         LayoutInflater inflater = this.context.getLayoutInflater();
         View row = inflater.inflate(R.layout.item_map,null);
+        row.setPadding(0,7,0,7);
+        RelativeLayout idmap = (RelativeLayout) row.findViewById(R.id.item_map);
+        RatingBar ratingBar = (RatingBar) row.findViewById(R.id.rtb_map);
         ImageView imHinh = (ImageView) row.findViewById(R.id.imageView);
-        ImageView imLocation = (ImageView) row.findViewById(R.id.img_location);
+        ImageView imSmoke = (ImageView) row.findViewById(R.id.smoke);
+        ImageView imParking = (ImageView) row.findViewById(R.id.parking);
+        ImageView imFood = (ImageView) row.findViewById(R.id.food);
         TextView tvName = (TextView) row.findViewById(R.id.tv_name);
-        TextView tvDiaChi = (TextView) row.findViewById(R.id.tv_diachi);
-        TextView tvKhoangCach = (TextView) row.findViewById(R.id.tv_khoangcach);
 
-        imLocation.setImageResource(R.drawable.ic_cursor);
+        TextView tvDiaChi = (TextView) row.findViewById(R.id.tv_diachi);
+
+        ratingBar.setRating((float) gameRoom.getRate());
+
         imHinh.setImageResource(R.drawable.quannet);
-        tvKhoangCach.setText(String.format("%.2f", met)+" km");
+        imSmoke.setImageResource(R.drawable.ic_smoke_free_black_24px);
+        imParking.setImageResource(R.drawable.ic_parking_sign);
+        imFood.setImageResource(R.drawable.ic_food);
+
         tvName.setText(gameRoom.getTitle());
         tvDiaChi.setText(gameRoom.getAddress());
 
