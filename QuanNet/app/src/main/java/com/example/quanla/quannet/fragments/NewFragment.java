@@ -114,8 +114,6 @@ public class NewFragment extends Fragment {
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void replace(ActivityReplaceEvent activityReplaceEvent){
         EventBus.getDefault().post(new ReplaceFragmentEvent(new DetailFragment(), true));
-
-
     }
     @Override
     public void onPause() {

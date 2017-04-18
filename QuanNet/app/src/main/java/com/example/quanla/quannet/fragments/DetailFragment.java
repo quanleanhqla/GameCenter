@@ -186,5 +186,4 @@ public class DetailFragment extends Fragment {
 
         return super.onOptionsItemSelected(item);
     }
-
 }

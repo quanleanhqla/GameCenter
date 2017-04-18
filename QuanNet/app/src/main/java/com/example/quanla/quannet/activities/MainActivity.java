@@ -157,18 +157,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
     @Subscribe
     public void replaceFragment(ReplaceFragmentEvent fragmentReplaceEvent){
         replaceFragment(fragmentReplaceEvent.getFragment(), fragmentReplaceEvent.isAddToBackStack());

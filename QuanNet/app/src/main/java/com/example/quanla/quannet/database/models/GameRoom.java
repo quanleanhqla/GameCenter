@@ -176,13 +176,17 @@ public class GameRoom {
     @Override
     public String toString() {
         return "GameRoom{" +
-                "km=" + km +
+                "khuyenmai='" + khuyenmai + '\'' +
+                ", km=" + km +
+                ", money='" + money + '\'' +
+                ", canNight=" + canNight +
                 ", canSmoke=" + canSmoke +
                 ", canPark=" + canPark +
+                ", canFood=" + canFood +
                 ", urlImage='" + urlImage + '\'' +
                 ", title='" + title + '\'' +
                 ", address='" + address + '\'' +
-                ", rate='" + rate + '\'' +
+                ", rate=" + rate +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
                 ", comment=" + comment +

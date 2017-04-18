@@ -253,7 +253,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickList
         Log.d(TAG, "clicked");
         LatLng latLng = marker.getPosition();
         direction(new com.example.quanla.quannet.database.models.GameRoom(latLng.latitude, latLng.longitude));
-        for (com.example.quanla.quannet.database.models.GameRoom l : DbContextHot.instance.getAllRooms()) {
+        for (final com.example.quanla.quannet.database.models.GameRoom l : DbContextHot.instance.getAllRooms()) {
             if (l.getLatitude() == latLng.latitude && l.getLongitude() == latLng.longitude) {
                 Location start = new Location("Start");
                 start.setLatitude(mLatitude);
@@ -266,8 +266,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickList
                 mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                     @Override
                     public void onInfoWindowClick(Marker marker) {
-                        DetailFragment detailFragment = new DetailFragment();
-                        ((MainActivity) getActivity()).replaceFragment(detailFragment,false);
+                        // chuyen man hinh detail
                     }
                 });
                 marker.showInfoWindow();
@@ -341,8 +340,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickList
                 mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                     @Override
                     public void onInfoWindowClick(Marker marker) {
-                        DetailFragment detailFragment = new DetailFragment();
-                        ((MainActivity) getActivity()).replaceFragment(detailFragment,false);
+                       // chuyen man hinh detail
                     }
                 });
                 marker.showInfoWindow();
