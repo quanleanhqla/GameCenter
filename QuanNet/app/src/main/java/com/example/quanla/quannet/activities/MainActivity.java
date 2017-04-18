@@ -18,6 +18,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -33,6 +34,7 @@ import com.example.quanla.quannet.adapters.CustomInfoAdapter;
 import com.example.quanla.quannet.database.DbContextHot;
 import com.example.quanla.quannet.database.models.GameRoom;
 import com.example.quanla.quannet.events.ActivityReplaceEvent;
+import com.example.quanla.quannet.events.DrawSearchEvent;
 import com.example.quanla.quannet.events.MoveToMap;
 import com.example.quanla.quannet.events.MoveToMapEvent;
 import com.example.quanla.quannet.events.ReplaceFragmentEvent;
@@ -68,6 +70,7 @@ public class MainActivity extends AppCompatActivity
 
 
 
+    private SearchView searchView;
 
 
     @Override
@@ -79,7 +82,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
 
-        getSupportActionBar().setTitle("Cứu net Pro");
+        searchView = (SearchView) findViewById(R.id.search) ;
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -121,7 +124,11 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        }
+        else if (searchView.getVisibility()==View.VISIBLE){
+            searchView.setVisibility(View.GONE);
+        }
+        else {
             super.onBackPressed();
         }
     }
@@ -176,6 +183,14 @@ public class MainActivity extends AppCompatActivity
                     .replace(R.id.fl1, fragment)
                     .commit();
         }
+    }
+
+    @Subscribe
+    public void drawSearch(DrawSearchEvent drawSearchEvent){
+        searchView.setVisibility(View.VISIBLE);
+        searchView.setFocusable(true);
+        searchView.setIconified(false);
+
     }
 
 

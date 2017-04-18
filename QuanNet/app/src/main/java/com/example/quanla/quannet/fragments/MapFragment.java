@@ -14,8 +14,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -29,6 +33,7 @@ import com.example.quanla.quannet.adapters.CustomInfoAdapter;
 import com.example.quanla.quannet.database.DbContextHot;
 import com.example.quanla.quannet.database.models.GameRoom;
 import com.example.quanla.quannet.events.ActivityReplaceEvent;
+import com.example.quanla.quannet.events.DrawSearchEvent;
 import com.example.quanla.quannet.events.MoveToMap;
 import com.example.quanla.quannet.events.MoveToMapEvent;
 import com.example.quanla.quannet.events.ReplaceFragmentEvent;
@@ -57,6 +62,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 
 
 /**
@@ -125,7 +131,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickList
         }
 
         if(getActivity() instanceof MainActivity) {
-            ((MainActivity) getActivity()).getSupportActionBar().setTitle("Cứu net pro");
+            ((MainActivity) getActivity()).getSupportActionBar().setTitle(" ");
         }
         return rootView;
     }
@@ -437,5 +443,29 @@ public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickList
     public void onLowMemory() {
         super.onLowMemory();
         mMapView.onLowMemory();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Do something that differs the Activity's menu here
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.seach_menu, menu);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()==R.id.mn_search){
+            EventBus.getDefault().post(new DrawSearchEvent());
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

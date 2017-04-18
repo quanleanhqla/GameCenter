@@ -10,4 +10,21 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.quanla.quannet.activities.InitialActivity">
 
+
+    <ImageView
+        android:id="@+id/iv"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo_gaming_finder_1_red"
+        />
+
+    <ProgressBar
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+
 </RelativeLayout>

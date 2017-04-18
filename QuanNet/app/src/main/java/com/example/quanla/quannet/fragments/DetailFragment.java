@@ -193,6 +193,7 @@ public class DetailFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
+                if(FirebaseAuth.getInstance().getCurrentUser() !=null)
                 comments = new Comments(FirebaseAuth.getInstance().getCurrentUser().getDisplayName(),s.toString(),FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().toString());
 
             }
