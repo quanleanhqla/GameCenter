@@ -114,14 +114,6 @@ public class MainActivity extends AppCompatActivity
 
         toolbar.setTitleTextColor(Color.WHITE);
         toolbar.setSubtitleTextColor(Color.WHITE);
-
-
-
-
-
-
-
-
     }
 
     @Override

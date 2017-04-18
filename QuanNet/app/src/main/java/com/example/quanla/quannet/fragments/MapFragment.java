@@ -263,6 +263,13 @@ public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickList
                 dest.setLongitude(l.getLongitude());
                 double kilomet = start.distanceTo(dest)/1000;
                 mMap.setInfoWindowAdapter(new CustomInfoAdapter(this.getActivity(), l, kilomet));
+                mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                    @Override
+                    public void onInfoWindowClick(Marker marker) {
+                        DetailFragment detailFragment = new DetailFragment();
+                        ((MainActivity) getActivity()).replaceFragment(detailFragment,false);
+                    }
+                });
                 marker.showInfoWindow();
             }
         }
@@ -331,6 +338,13 @@ public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickList
                 marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.imac));
                 direction(new com.example.quanla.quannet.database.models.GameRoom(gameRoom.getLatitude(), gameRoom.getLongitude()));
                 mMap.setInfoWindowAdapter(new CustomInfoAdapter(this.getActivity(),gameRoom,kilomet));
+                mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                    @Override
+                    public void onInfoWindowClick(Marker marker) {
+                        DetailFragment detailFragment = new DetailFragment();
+                        ((MainActivity) getActivity()).replaceFragment(detailFragment,false);
+                    }
+                });
                 marker.showInfoWindow();
             }
         }
