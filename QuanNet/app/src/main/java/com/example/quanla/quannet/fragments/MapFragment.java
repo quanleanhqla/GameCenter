@@ -31,6 +31,7 @@ import com.example.quanla.quannet.database.models.GameRoom;
 import com.example.quanla.quannet.events.ActivityReplaceEvent;
 import com.example.quanla.quannet.events.MoveToMap;
 import com.example.quanla.quannet.events.MoveToMapEvent;
+import com.example.quanla.quannet.events.ReplaceFragmentEvent;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -267,6 +268,8 @@ public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickList
                     @Override
                     public void onInfoWindowClick(Marker marker) {
                         // chuyen man hinh detail
+                        EventBus.getDefault().postSticky(new ActivityReplaceEvent(l));
+                        EventBus.getDefault().post(new ReplaceFragmentEvent(new DetailFragment(), true));
                     }
                 });
                 marker.showInfoWindow();
@@ -341,6 +344,8 @@ public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickList
                     @Override
                     public void onInfoWindowClick(Marker marker) {
                        // chuyen man hinh detail
+                        EventBus.getDefault().postSticky(new ActivityReplaceEvent(gameRoom));
+                        EventBus.getDefault().post(new ReplaceFragmentEvent(new DetailFragment(), true));
                     }
                 });
                 marker.showInfoWindow();
