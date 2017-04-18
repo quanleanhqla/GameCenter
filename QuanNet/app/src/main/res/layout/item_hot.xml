@@ -45,10 +45,21 @@
             android:textColor="#34495e"
             android:textSize="14dp" />
 
+
+        <RatingBar
+            android:id="@+id/rtb_map"
+            style="?android:attr/ratingBarStyleSmall"
+            android:progressTint="#FFD600"
+            android:layout_below="@id/tv_address"
+            android:layout_toEndOf="@+id/iv_photo"
+            android:layout_marginLeft="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <TextView
             android:layout_marginLeft="6dp"
             android:layout_marginRight="6dp"
-            android:layout_toEndOf="@id/iv_photo"
+            android:layout_toEndOf="@id/rtb_map"
             android:layout_below="@id/tv_address"
             android:id="@+id/tv_rate"
             android:layout_width="wrap_content"
@@ -59,27 +70,30 @@
 
 
         <ImageView
-            android:layout_marginBottom="2dp"
+            android:layout_marginBottom="6dp"
             android:layout_marginStart="6dp"
+            android:layout_marginTop="15dp"
             android:layout_toEndOf="@id/iv_photo"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@id/rtb_map"
             android:id="@+id/smoke"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <ImageView
-            android:layout_marginBottom="2dp"
-            android:layout_marginStart="2dp"
-            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="6dp"
+            android:layout_marginStart="10dp"
+            android:layout_below="@id/rtb_map"
+            android:layout_marginTop="15dp"
             android:layout_toEndOf="@id/smoke"
             android:id="@+id/parking"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <ImageView
-            android:layout_marginBottom="2dp"
-            android:layout_marginStart="2dp"
+            android:layout_marginBottom="6dp"
+            android:layout_marginStart="10dp"
             android:id="@+id/food"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@id/rtb_map"
+            android:layout_marginTop="15dp"
             android:layout_toEndOf="@id/parking"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

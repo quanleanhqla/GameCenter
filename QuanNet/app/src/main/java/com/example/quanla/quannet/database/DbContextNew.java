@@ -11,6 +11,16 @@ import java.util.ArrayList;
 public class DbContextNew {
     public static final DbContextNew instance = new DbContextNew();
     private ArrayList<GameRoom> allRooms;
+    private ArrayList<String> allNames ;
+    public void addName(String name){
+        if (allNames==null) allNames = new ArrayList<>();
+        allNames.add(name);
+    }
+    public ArrayList<String> getAllNames(){
+        if (allNames == null)
+            allNames = new ArrayList<>();
+        return allNames;
+    }
 
 
     public ArrayList<GameRoom> getAllRooms(){

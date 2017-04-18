@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.quanla.quannet.R;
@@ -33,6 +34,8 @@ public class GameRoomHolder extends RecyclerView.ViewHolder {
     ImageView ivPark;
     @BindView(R.id.food)
     ImageView ivFood;
+    @BindView(R.id.rtb_map)
+    RatingBar rtb;
     public ImageView getImgPhoto() {
         return imgPhoto;
     }
@@ -60,8 +63,13 @@ public class GameRoomHolder extends RecyclerView.ViewHolder {
         tvTitle.setText(gameRoom.getTitle());
         tvAddress.setText(gameRoom.getAddress());
         tvRate.setText(gameRoom.getRate()+"");
-        ivSmoke.setImageResource(R.drawable.ic_smoke_free_black_24px);
-        ivPark.setImageResource(R.drawable.ic_local_parking_black_24px);
-        ivFood.setImageResource(R.drawable.ic_plate_fork_and_knife);
+        rtb.setRating((float) gameRoom.getRate());
+
+        if(!gameRoom.isCanSmoke()) ivSmoke.setImageResource(R.drawable.ic_no_cigarette);
+        else ivSmoke.setImageResource(R.drawable.ic_cigarette);
+        if(gameRoom.isCanPark()) ivPark.setImageResource(R.drawable.ic_parking_sign);
+        else ivPark.setImageResource(R.drawable.ic_noparking_sign_);
+        if(gameRoom.isCanFood()) ivFood.setImageResource(R.drawable.ic_food);
+        else ivFood.setImageResource(R.drawable.ic_noplate_fork_and_knife);
     }
 }

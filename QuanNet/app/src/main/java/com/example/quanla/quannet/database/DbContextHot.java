@@ -16,6 +16,18 @@ public class DbContextHot {
     public static final DbContextHot instance = new DbContextHot();
     private ArrayList<GameRoom> allRooms;
     public ArrayList<Comments> comments;
+    private ArrayList<String> allNames ;
+    public void addName(String name){
+        if (allNames==null) allNames = new ArrayList<>();
+        allNames.add(name);
+    }
+    public ArrayList<String> getAllNames(){
+        if (allNames == null)
+            allNames = new ArrayList<>();
+        return allNames;
+    }
+
+
 
 
     public ArrayList<GameRoom> getAllRooms(){

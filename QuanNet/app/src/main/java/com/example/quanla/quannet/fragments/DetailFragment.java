@@ -2,10 +2,14 @@ package com.example.quanla.quannet.fragments;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,28 +18,48 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.quanla.quannet.R;
 import com.example.quanla.quannet.activities.MainActivity;
+import com.example.quanla.quannet.adapters.CommentAdapter;
 import com.example.quanla.quannet.adapters.PhotoAdapter;
+import com.example.quanla.quannet.database.DbContextHot;
+import com.example.quanla.quannet.database.models.Comments;
 import com.example.quanla.quannet.database.models.GameRoom;
 import com.example.quanla.quannet.events.ActivityReplaceEvent;
+import com.example.quanla.quannet.events.ImageProfile;
 import com.example.quanla.quannet.events.ReplaceFragmentEvent;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.facebook.GraphRequest.TAG;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class DetailFragment extends Fragment {
-
+    public static  final String TAG ="DetailFragment";
     @BindView(R.id.tv_title)
     TextView tv_title;
 
@@ -84,6 +108,26 @@ public class DetailFragment extends Fragment {
     @BindView(R.id.tv_rate)
     TextView tv_rate;
 
+    @BindView(R.id.rv_cmt)
+    RecyclerView recyclerView;
+    @BindView(R.id.ll6)
+    LinearLayout ll6;
+    @BindView(R.id.send)
+    Button send;
+    @BindView(R.id.im_profile)
+    ImageView imageView;
+    @BindView(R.id.et_cmt)
+    EditText etcmt;
+    @BindView(R.id.bt_login)
+    Button btLogin;
+    private DatabaseReference databaseReference;
+    private String title;
+    private CommentAdapter commentAdapter;
+    private Comments comments;
+    private ArrayList<Comments> arrayList;
+    private boolean aBoolean= true;
+    FragmentManager fm ;
+    BlankFragment editNameDialogFragment ;
 
     private GameRoom gameRoom;
 
@@ -98,10 +142,96 @@ public class DetailFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
         ButterKnife.bind(this, view);
+        if (FirebaseAuth.getInstance().getCurrentUser()!=null) {
+            btLogin.setVisibility(View.INVISIBLE);
+            Picasso.with(this.getContext()).load(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()).into(imageView);
+        }
+        btLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showEditDialog();
+            }
+        });
 
+        arrayList = new ArrayList<>();
+        fm = getActivity().getSupportFragmentManager();
+        editNameDialogFragment = BlankFragment.newInstance("Đăng nhập");
+        editNameDialogFragment.setLoginSuccesListener(new BlankFragment.LoginSuccesListener() {
+            @Override
+            public void loginSucces(ImageProfile imageProfile) {
+                Log.d(TAG, "setImageProfile: ");
+                ll6.setVisibility(View.VISIBLE);
+                btLogin.setVisibility(View.INVISIBLE);
+                Picasso.with(getContext()).load(imageProfile.getUri()).into(imageView);
+            }
+        });
         PhotoAdapter photoAdapter = new PhotoAdapter();
         rv_anh.setAdapter(photoAdapter);
         rv_anh.setLayoutManager(new LinearLayoutManager(this.getContext(),LinearLayoutManager.HORIZONTAL, false));
+        if (DbContextHot.instance.allComment()!= null)
+            DbContextHot.instance.comments.clear();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        Log.d(TAG, String.format("onCreateView: %s", title));
+
+        etcmt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (FirebaseAuth.getInstance().getCurrentUser()==null) showEditDialog();
+
+            }
+        });
+        etcmt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                comments = new Comments(FirebaseAuth.getInstance().getCurrentUser().getDisplayName(),s.toString(),FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().toString());
+
+            }
+        });
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    if (comments != null && FirebaseAuth.getInstance().getCurrentUser() != null) {
+                        databaseReference.child("comment").child(tv_title.getText().toString()).push().setValue(comments).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Log.d(TAG, "onComplete: ");
+                                    Toast.makeText(getContext(), "Đăng bình luận thành công", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Log.d(TAG, String.format("onComplete: %s", task.getException().toString()));
+                                    Toast.makeText(getContext(), "Đăng bình luận thất bại", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                        DbContextHot.instance.addComment(comments);
+                    }
+                    tv_title.setText(null);
+                } catch (Exception e) {
+                    Log.d(TAG, "onClick: " + e.toString());
+                }
+            }
+        });
+
+
+
+
+        Log.d(TAG, String.format("onCreate: %s", title));
+        commentAdapter = new CommentAdapter();
+        commentAdapter.setContext(this.getContext());
+
+        recyclerView.setAdapter(commentAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext(),LinearLayoutManager.VERTICAL,false));
 
 
 
@@ -129,6 +259,7 @@ public class DetailFragment extends Fragment {
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void replace(ActivityReplaceEvent activityReplaceEvent) {
         gameRoom = activityReplaceEvent.getGameRoom();
+        this.title = gameRoom.getTitle();
         tv_address.setText(activityReplaceEvent.getGameRoom().getAddress());
         tv_title.setText(activityReplaceEvent.getGameRoom().getTitle());
         tv_money.setText(gameRoom.getMoney());
@@ -155,6 +286,36 @@ public class DetailFragment extends Fragment {
         if(getActivity() instanceof MainActivity) {
             ((MainActivity) getActivity()).getSupportActionBar().setTitle(gameRoom.getTitle());
         }
+        databaseReference.child("comment").child(title).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Comments comments = dataSnapshot.getValue(Comments.class);
+                if (comments.getUri() != null) DbContextHot.instance.addComment(comments);
+                Log.d(TAG, String.format("onChildAdded: %s", dataSnapshot.getValue(Comments.class)));
+                commentAdapter.notifyDataSetChanged();
+                Log.d(TAG, String.format("replace: %s", DbContextHot.instance.comments.size()));
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d(TAG, String.format("onCancelled: %s", databaseError.toString()));
+            }
+        });
     }
 
     @Override
@@ -185,5 +346,16 @@ public class DetailFragment extends Fragment {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void setImageProfile(ImageProfile imageProfile){
+        Log.d(TAG, "setImageProfile: ");
+        ll6.setVisibility(View.VISIBLE);
+        btLogin.setVisibility(View.INVISIBLE);
+        Picasso.with(this.getContext()).load(imageProfile.getUri()).into(imageView);
+    }
+    private void showEditDialog() {
+
+        editNameDialogFragment.show(fm, "fragment_edit_name");
     }
 }

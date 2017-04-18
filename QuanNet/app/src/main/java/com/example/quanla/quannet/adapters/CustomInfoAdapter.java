@@ -49,9 +49,12 @@ public class CustomInfoAdapter implements GoogleMap.InfoWindowAdapter {
         ratingBar.setRating((float) gameRoom.getRate());
 
         imHinh.setImageResource(R.drawable.quannet);
-        imSmoke.setImageResource(R.drawable.ic_smoke_free_black_24px);
-        imParking.setImageResource(R.drawable.ic_parking_sign);
-        imFood.setImageResource(R.drawable.ic_food);
+        if(!gameRoom.isCanSmoke()) imSmoke.setImageResource(R.drawable.ic_no_cigarette);
+        else imSmoke.setImageResource(R.drawable.ic_cigarette);
+        if(gameRoom.isCanPark()) imParking.setImageResource(R.drawable.ic_parking_sign);
+        else imParking.setImageResource(R.drawable.ic_noparking_sign_);
+        if(gameRoom.isCanFood()) imFood.setImageResource(R.drawable.ic_food);
+        else imFood.setImageResource(R.drawable.ic_noplate_fork_and_knife);
 
         tvName.setText(gameRoom.getTitle());
         tvDiaChi.setText(gameRoom.getAddress());
