@@ -32,6 +32,7 @@ import com.example.quanla.quannet.database.DbContextHot;
 import com.example.quanla.quannet.database.models.Comments;
 import com.example.quanla.quannet.database.models.GameRoom;
 import com.example.quanla.quannet.events.ActivityReplaceEvent;
+import com.example.quanla.quannet.events.FromInfoEvent;
 import com.example.quanla.quannet.events.ImageProfile;
 import com.example.quanla.quannet.events.ReplaceFragmentEvent;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -52,8 +53,6 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.facebook.GraphRequest.TAG;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -128,6 +127,8 @@ public class DetailFragment extends Fragment {
     private boolean aBoolean= true;
     FragmentManager fm ;
     BlankFragment editNameDialogFragment ;
+
+    private int check = 0;
 
     private GameRoom gameRoom;
 
@@ -336,8 +337,10 @@ public class DetailFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Do something that differs the Activity's menu here
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.location_menu, menu);
+        if(check != 1) {
+            super.onCreateOptionsMenu(menu, inflater);
+            inflater.inflate(R.menu.location_menu, menu);
+        }
 
     }
 
@@ -361,4 +364,68 @@ public class DetailFragment extends Fragment {
 
         editNameDialogFragment.show(fm, "fragment_edit_name");
     }
+
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void replace(FromInfoEvent activityReplaceEvent) {
+        check = 1;
+        gameRoom = activityReplaceEvent.getGameRoom();
+        this.title = gameRoom.getTitle();
+        tv_address.setText(activityReplaceEvent.getGameRoom().getAddress());
+        tv_title.setText(activityReplaceEvent.getGameRoom().getTitle());
+        tv_money.setText(gameRoom.getMoney());
+        tv_rate.setText(gameRoom.getRate()+"");
+        if(gameRoom.getKhuyenmai()!=null){
+            vv.setVisibility(View.VISIBLE);
+            tv_khuyenmai.setVisibility(View.VISIBLE);
+        }
+        if(!gameRoom.isCanFood()){
+            iv_food.setImageResource(R.drawable.ic_noplate_fork_and_knife);
+            tv_food.setText("Không đồ ăn");
+        }
+        if(!gameRoom.isCanNight()){
+            tv_quadem.setText("Không qua đêm");
+        }
+        if(!gameRoom.isCanPark()){
+            iv_park.setImageResource(R.drawable.ic_noparking_sign_);
+            tv_park.setText("Không chỗ để xe");
+        }
+        if(!gameRoom.isCanSmoke()){
+            iv_smoke.setImageResource(R.drawable.ic_no_cigarette);
+            tv_smoke.setText("Không hút thuốc");
+        }
+        if(getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).getSupportActionBar().setTitle(gameRoom.getTitle());
+        }
+        databaseReference.child("comment").child(title).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Comments comments = dataSnapshot.getValue(Comments.class);
+                if (comments.getUri() != null) DbContextHot.instance.addComment(comments);
+                Log.d(TAG, String.format("onChildAdded: %s", dataSnapshot.getValue(Comments.class)));
+                commentAdapter.notifyDataSetChanged();
+                Log.d(TAG, String.format("replace: %s", DbContextHot.instance.comments.size()));
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d(TAG, String.format("onCancelled: %s", databaseError.toString()));
+            }
+        });
+    }
+
 }

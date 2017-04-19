@@ -12,9 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -34,8 +32,8 @@ import com.example.quanla.quannet.database.DbContextHot;
 import com.example.quanla.quannet.database.models.GameRoom;
 import com.example.quanla.quannet.events.ActivityReplaceEvent;
 import com.example.quanla.quannet.events.DrawSearchEvent;
+import com.example.quanla.quannet.events.FromInfoEvent;
 import com.example.quanla.quannet.events.MoveToMap;
-import com.example.quanla.quannet.events.MoveToMapEvent;
 import com.example.quanla.quannet.events.ReplaceFragmentEvent;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -47,7 +45,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -61,8 +58,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
 
 
 /**
@@ -274,7 +269,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickList
                     @Override
                     public void onInfoWindowClick(Marker marker) {
                         // chuyen man hinh detail
-                        EventBus.getDefault().postSticky(new ActivityReplaceEvent(l));
+                        EventBus.getDefault().postSticky(new FromInfoEvent(l));
                         EventBus.getDefault().post(new ReplaceFragmentEvent(new DetailFragment(), true));
                     }
                 });
@@ -323,13 +318,14 @@ public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickList
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void getGameRoom(ActivityReplaceEvent activityReplaceEvent){
         gameRoom = activityReplaceEvent.getGameRoom();
-        moveToMap = MoveToMap.FROMDETAIL;
+        moveToMap = activityReplaceEvent.getMoveToMap();
 
         Log.d(TAG, String.format("d c m %s", gameRoom.toString()));
         if(getActivity() instanceof MainActivity) {
             ((MainActivity) getActivity()).getSupportActionBar().setTitle(gameRoom.getTitle());
         }
     }
+
 
     public void setGGMap(){
         Location start = new Location("Start");
@@ -346,20 +342,12 @@ public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickList
                 marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.imac));
                 direction(new com.example.quanla.quannet.database.models.GameRoom(gameRoom.getLatitude(), gameRoom.getLongitude()));
                 mMap.setInfoWindowAdapter(new CustomInfoAdapter(this.getActivity(),gameRoom,kilomet));
-                mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                    @Override
-                    public void onInfoWindowClick(Marker marker) {
-                       // chuyen man hinh detail
-                        EventBus.getDefault().postSticky(new ActivityReplaceEvent(gameRoom));
-                        EventBus.getDefault().post(new ReplaceFragmentEvent(new DetailFragment(), true));
-                    }
-                });
                 marker.showInfoWindow();
             }
         }
         else {
             if(mMap!=null) {
-                for (com.example.quanla.quannet.database.models.GameRoom l : DbContextHot.instance.getAllRooms()) {
+                for (final com.example.quanla.quannet.database.models.GameRoom l : DbContextHot.instance.getAllRooms()) {
                     Location dest = new Location(l.getTitle());
                     dest.setLatitude(l.getLatitude());
                     dest.setLongitude(l.getLongitude());

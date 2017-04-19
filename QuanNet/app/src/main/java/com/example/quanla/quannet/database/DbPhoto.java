@@ -17,9 +17,9 @@ public class DbPhoto {
     public ArrayList<Photos> getArrayList(){
         arrayList = new ArrayList<>();
 
-        arrayList.add(new Photos(R.drawable.ic_access_time_white_24px));
-        arrayList.add(new Photos(R.drawable.ic_account_circle_black_24px));
-        arrayList.add(new Photos(R.drawable.ic_arrow_back_black_24dp));
+        arrayList.add(new Photos(R.drawable.mot));
+        arrayList.add(new Photos(R.drawable.hai));
+        arrayList.add(new Photos(R.drawable.ba));
         arrayList.add(new Photos(R.drawable.ic_clear_black_24dp));
 
         return arrayList;

@@ -3,21 +3,19 @@ package com.example.quanla.quannet.events;
 import com.example.quanla.quannet.database.models.GameRoom;
 
 /**
- * Created by QuanLA on 3/20/2017.
+ * Created by QuanLA on 4/18/2017.
  */
 
-public class ActivityReplaceEvent {
+public class FromInfoEvent {
     private GameRoom gameRoom;
-    private MoveToMap moveToMap;
 
 
-    public ActivityReplaceEvent() {
+    public FromInfoEvent() {
     }
 
 
-    public ActivityReplaceEvent(GameRoom gameRoom) {
+    public FromInfoEvent(GameRoom gameRoom) {
         this.gameRoom = gameRoom;
-        this.moveToMap = MoveToMap.FROMDETAIL;
     }
 
 
@@ -31,13 +29,6 @@ public class ActivityReplaceEvent {
     }
 
 
-    public MoveToMap getMoveToMap() {
-        return moveToMap;
-    }
-
-    public void setMoveToMap(MoveToMap moveToMap) {
-        this.moveToMap = moveToMap;
-    }
 
     @Override
     public String toString() {

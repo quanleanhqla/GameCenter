@@ -51,6 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <ImageView
+        android:layout_marginStart="5dp"
         android:layout_marginTop="7dp"
         android:layout_below="@+id/tv_diachi"
         android:layout_toEndOf="@+id/smoke"
@@ -58,6 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <ImageView
+        android:layout_marginStart="5dp"
         android:layout_marginTop="7dp"
         android:layout_toEndOf="@+id/parking"
         android:layout_below="@+id/tv_diachi"

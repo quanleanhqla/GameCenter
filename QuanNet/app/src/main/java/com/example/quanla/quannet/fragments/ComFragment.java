@@ -25,6 +25,7 @@ import com.example.quanla.quannet.R;
 import com.example.quanla.quannet.adapters.ComputerAdapter;
 import com.example.quanla.quannet.database.models.GameRoom;
 import com.example.quanla.quannet.events.ActivityReplaceEvent;
+import com.example.quanla.quannet.events.FromInfoEvent;
 import com.example.quanla.quannet.events.ReplaceFragmentEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -48,6 +49,8 @@ public class ComFragment extends Fragment {
     TextView tv_title;
     @BindView(R.id.bt_call)
     Button btn_call;
+
+    private int check =0;
 
     private GameRoom gameRoom;
 
@@ -87,6 +90,14 @@ public class ComFragment extends Fragment {
     public void replace(ActivityReplaceEvent activityReplaceEvent) {
         gameRoom = activityReplaceEvent.getGameRoom();
         tv_title.setText(activityReplaceEvent.getGameRoom().getTitle());
+
+    }
+
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void replace(FromInfoEvent activityReplaceEvent) {
+        gameRoom = activityReplaceEvent.getGameRoom();
+        tv_title.setText(activityReplaceEvent.getGameRoom().getTitle());
+        check = 1;
 
     }
 
@@ -132,8 +143,10 @@ public class ComFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Do something that differs the Activity's menu here
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.location_menu, menu);
+        if(check != 1) {
+            super.onCreateOptionsMenu(menu, inflater);
+            inflater.inflate(R.menu.location_menu, menu);
+        }
 
     }
 

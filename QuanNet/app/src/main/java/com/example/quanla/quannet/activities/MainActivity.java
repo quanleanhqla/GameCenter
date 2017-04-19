@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.directions.route.Route;
 import com.directions.route.RouteException;
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity
 
 
     private SearchView searchView;
-
+    public ImageView logo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +83,8 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
 
+        logo = (ImageView) findViewById(R.id.logo) ;
+        logo.setVisibility(View.INVISIBLE);
         searchView = (SearchView) findViewById(R.id.search) ;
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -114,6 +117,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         MapFragment mapFragment = new MapFragment();
         replaceFragment(mapFragment, false);
+
 
         toolbar.setTitleTextColor(Color.WHITE);
         toolbar.setSubtitleTextColor(Color.WHITE);

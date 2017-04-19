@@ -74,6 +74,7 @@ public class HotFragment extends Fragment implements LocationListener {
             checkLocationPermission();
         }
 
+
         if(getActivity() instanceof MainActivity) {
             ((MainActivity) getActivity()).getSupportActionBar().setTitle("Top phòng máy");
         }

@@ -13,7 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
-         <ImageView
+
+        <ImageView
              app:srcCompat="@drawable/ic_computer_white_24px"
              android:scaleType="fitXY"
              android:id="@+id/iv_photo"
@@ -21,6 +22,7 @@
              android:layout_height="130dp" />
 
         <TextView
+            android:layout_marginTop="5dp"
             android:layout_marginLeft="6dp"
             android:layout_marginRight="6dp"
             android:layout_toEndOf="@id/iv_photo"
@@ -70,30 +72,27 @@
 
 
         <ImageView
-            android:layout_marginBottom="6dp"
             android:layout_marginStart="6dp"
-            android:layout_marginTop="15dp"
             android:layout_toEndOf="@id/iv_photo"
-            android:layout_below="@id/rtb_map"
+            android:layout_alignBottom="@id/iv_photo"
+            android:layout_marginBottom="10dp"
             android:id="@+id/smoke"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <ImageView
-            android:layout_marginBottom="6dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginStart="10dp"
-            android:layout_below="@id/rtb_map"
-            android:layout_marginTop="15dp"
+            android:layout_alignBottom="@id/iv_photo"
             android:layout_toEndOf="@id/smoke"
             android:id="@+id/parking"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <ImageView
-            android:layout_marginBottom="6dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginStart="10dp"
             android:id="@+id/food"
-            android:layout_below="@id/rtb_map"
-            android:layout_marginTop="15dp"
+            android:layout_alignBottom="@id/iv_photo"
             android:layout_toEndOf="@id/parking"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
