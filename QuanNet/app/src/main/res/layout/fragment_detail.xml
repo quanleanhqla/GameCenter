@@ -35,17 +35,18 @@
             android:layout_height="wrap_content" />
 
         <LinearLayout
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             android:id="@+id/ll6"
             android:layout_below="@+id/cv3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ImageView
-
+                android:layout_marginTop="5dp"
                 android:id="@+id/im_profile"
                 android:layout_width="42dp"
                 android:layout_height="43dp" />
             <EditText
+                android:layout_marginTop="5dp"
                 android:layout_marginLeft="5dp"
                 android:id="@+id/et_cmt"
                 android:hint="Write comment here..."
@@ -54,7 +55,7 @@
                 android:layout_weight="7" />
 
             <Button
-                android:background="@color/guillotine_background"
+
                 android:id="@+id/send"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

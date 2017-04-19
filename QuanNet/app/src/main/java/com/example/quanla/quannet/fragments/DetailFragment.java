@@ -145,6 +145,8 @@ public class DetailFragment extends Fragment {
         if (FirebaseAuth.getInstance().getCurrentUser()!=null) {
             btLogin.setVisibility(View.INVISIBLE);
             Picasso.with(this.getContext()).load(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()).into(imageView);
+        }else {
+            ll6.setVisibility(View.INVISIBLE);
         }
         btLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -217,7 +219,7 @@ public class DetailFragment extends Fragment {
                         });
                         DbContextHot.instance.addComment(comments);
                     }
-                    tv_title.setText(null);
+                    etcmt.setText(null);
                 } catch (Exception e) {
                     Log.d(TAG, "onClick: " + e.toString());
                 }

@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.quanla.quannet.R;
@@ -102,13 +103,26 @@ public class BlankFragment extends DialogFragment implements GoogleApiClient.OnC
         String title = getArguments().getString("title", "Enter Name");
         getDialog().setTitle(title);
         // Show soft keyboard automatically and request focus to field
-        getDialog().getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
 
 
     }
     private void setupUI() {
+        loginButton.setText("Tiếp tục với Facebook");
+        loginButton.setTextSize(15);
+        for (int i = 0; i < signInButton.getChildCount(); i++) {
+            View v = signInButton.getChildAt(i);
 
+            if (v instanceof TextView) {
+                TextView tv = (TextView) v;
+                tv.setText("Tiếp tục với Google");
+
+                tv.setTextSize(15);
+                tv.setPadding(0,0,20,0);
+
+                break;
+            }
+        }
         mDatabase = FirebaseDatabase.getInstance().getReference();
         if (FirebaseAuth.getInstance().getCurrentUser()!= null)
             loginNotifycation();
