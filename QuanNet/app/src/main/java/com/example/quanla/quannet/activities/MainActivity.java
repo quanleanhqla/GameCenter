@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener  {
 
 
-
+    private static final String TAG = "MainActivity";
     private SearchView searchView;
     public ImageView logo;
 
@@ -170,6 +170,7 @@ public class MainActivity extends AppCompatActivity
 
     @Subscribe
     public void replaceFragment(ReplaceFragmentEvent fragmentReplaceEvent){
+        Log.d(TAG, String.format("replaceFragment: %s", fragmentReplaceEvent) );
         replaceFragment(fragmentReplaceEvent.getFragment(), fragmentReplaceEvent.isAddToBackStack());
     }
 

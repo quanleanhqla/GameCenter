@@ -447,13 +447,13 @@ public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickList
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==R.id.mn_search){
-            EventBus.getDefault().post(new DrawSearchEvent());
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        if(item.getItemId()==R.id.mn_search){
+//            EventBus.getDefault().post(new DrawSearchEvent());
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 }

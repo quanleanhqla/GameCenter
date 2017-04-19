@@ -198,13 +198,14 @@ public class DetailFragment extends Fragment {
             public void afterTextChanged(Editable s) {
                 if(FirebaseAuth.getInstance().getCurrentUser() !=null)
                 comments = new Comments(FirebaseAuth.getInstance().getCurrentUser().getDisplayName(),s.toString(),FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().toString());
-
+                Log.d(TAG, "afterTextChanged: ");
             }
         });
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
+                    comments = new Comments(FirebaseAuth.getInstance().getCurrentUser().getDisplayName(),etcmt.getText().toString(),FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().toString());
                     if (comments != null && FirebaseAuth.getInstance().getCurrentUser() != null) {
                         databaseReference.child("comment").child(tv_title.getText().toString()).push().setValue(comments).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
@@ -353,13 +354,7 @@ public class DetailFragment extends Fragment {
 
         return super.onOptionsItemSelected(item);
     }
-    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
-    public void setImageProfile(ImageProfile imageProfile){
-        Log.d(TAG, "setImageProfile: ");
-        ll6.setVisibility(View.VISIBLE);
-        btLogin.setVisibility(View.INVISIBLE);
-        Picasso.with(this.getContext()).load(imageProfile.getUri()).into(imageView);
-    }
+
     private void showEditDialog() {
 
         editNameDialogFragment.show(fm, "fragment_edit_name");

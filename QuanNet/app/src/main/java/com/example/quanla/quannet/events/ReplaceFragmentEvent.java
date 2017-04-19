@@ -31,4 +31,12 @@ public class ReplaceFragmentEvent {
     public void setAddToBackStack(boolean addToBackStack) {
         this.addToBackStack = addToBackStack;
     }
+
+    @Override
+    public String toString() {
+        return "ReplaceFragmentEvent{" +
+                "fragment=" + fragment +
+                ", addToBackStack=" + addToBackStack +
+                '}';
+    }
 }

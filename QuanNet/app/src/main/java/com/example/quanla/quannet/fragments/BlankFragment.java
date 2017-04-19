@@ -1,6 +1,7 @@
 package com.example.quanla.quannet.fragments;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -62,6 +63,7 @@ public class BlankFragment extends DialogFragment implements GoogleApiClient.OnC
     private FirebaseAuth.AuthStateListener mAuthListener;
     private GoogleApiClient mGoogleApiClient;
     private CallbackManager mCallbackManager;
+    ProgressDialog progressDialog;
     public BlankFragment() {
         // Empty constructor is required for DialogFragment
         // Make sure not to add arguments to the constructor
@@ -108,6 +110,10 @@ public class BlankFragment extends DialogFragment implements GoogleApiClient.OnC
 
     }
     private void setupUI() {
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Đang Đăng Nhập");
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCancelable(false);
         loginButton.setText("Tiếp tục với Facebook");
         loginButton.setTextSize(15);
         for (int i = 0; i < signInButton.getChildCount(); i++) {
@@ -168,11 +174,20 @@ public class BlankFragment extends DialogFragment implements GoogleApiClient.OnC
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-        if (mGoogleApiClient == null)
-        mGoogleApiClient = new GoogleApiClient.Builder(this.getContext())
-                .enableAutoManage(this.getActivity() , this )
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(this.getContext())
+                    .enableAutoManage(this.getActivity(), this)
+                    .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                    .build();
+        }else {
+            if (!mGoogleApiClient.isConnected()) {
+                mGoogleApiClient = new GoogleApiClient.Builder(this.getContext())
+                        .enableAutoManage(this.getActivity(), this)
+                        .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                        .build();
+
+            }
+        }
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -211,6 +226,7 @@ public class BlankFragment extends DialogFragment implements GoogleApiClient.OnC
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        progressDialog.show();
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
@@ -218,9 +234,9 @@ public class BlankFragment extends DialogFragment implements GoogleApiClient.OnC
                 .addOnCompleteListener(this.getActivity(), new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressDialog.dismiss();
                         Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
 
-                        EventBus.getDefault().postSticky(new ImageProfile(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()));
                         loginSuccesListener.loginSucces(new ImageProfile(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()));
                         loginNotifycation();// If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
@@ -234,6 +250,7 @@ public class BlankFragment extends DialogFragment implements GoogleApiClient.OnC
                 });
     }
     private void handleFacebookAccessToken(AccessToken token) {
+        progressDialog.show();
         Log.d(TAG, "handleFacebookAccessToken:" + token);
 
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
@@ -242,8 +259,8 @@ public class BlankFragment extends DialogFragment implements GoogleApiClient.OnC
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
+                            progressDialog.dismiss();
 
-                        EventBus.getDefault().postSticky(new ImageProfile(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()));
                         loginSuccesListener.loginSucces(new ImageProfile(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()));
                         loginNotifycation();// If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
@@ -260,18 +277,25 @@ public class BlankFragment extends DialogFragment implements GoogleApiClient.OnC
     @Override
     public void onStart() {
         mAuth.addAuthStateListener(mAuthListener);
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.connect();
+        }
         super.onStart();
     }
 
     @Override
     public void onStop() {
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+           mGoogleApiClient.stopAutoManage(getActivity());
+            mGoogleApiClient.disconnect();
+        }
         mAuth.removeAuthStateListener(mAuthListener);
         super.onStop();
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+        Log.d(TAG, String.format("onConnectionFailed: 5%", connectionResult.getErrorMessage().toString()));
     }
 
     @Override
@@ -284,5 +308,6 @@ public class BlankFragment extends DialogFragment implements GoogleApiClient.OnC
         else   Toast.makeText(this.getActivity(),"Đặng Nhập thất bại",Toast.LENGTH_SHORT).show();
         this.dismiss();
     }
+
 }
 
