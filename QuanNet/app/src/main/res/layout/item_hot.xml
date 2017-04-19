@@ -34,6 +34,7 @@
             android:textSize="16dp"
             android:textStyle="bold" />
 
+
         <TextView
             android:layout_marginLeft="6dp"
             android:layout_marginRight="6dp"
@@ -97,5 +98,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
+        <com.lid.lib.LabelTextView
+            android:visibility="invisible"
+            android:id="@+id/liv"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:gravity="center"
+            app:label_backgroundColor="#03A9F4"
+            app:label_text="Khuyến mại"
+            android:textColor="#ffffff"
+            app:label_textSize="10sp"
+            android:textAlignment="center"
+            android:height="15dp"
+            />
+
     </RelativeLayout>
+
+
+
 </android.support.v7.widget.CardView>

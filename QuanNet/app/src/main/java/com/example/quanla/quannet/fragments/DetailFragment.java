@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -35,6 +36,7 @@ import com.example.quanla.quannet.events.ActivityReplaceEvent;
 import com.example.quanla.quannet.events.FromInfoEvent;
 import com.example.quanla.quannet.events.ImageProfile;
 import com.example.quanla.quannet.events.ReplaceFragmentEvent;
+import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -61,6 +63,10 @@ public class DetailFragment extends Fragment {
     public static  final String TAG ="DetailFragment";
     @BindView(R.id.tv_title)
     TextView tv_title;
+
+    @BindView(R.id.cv4)
+    CardView cv;
+
 
     @BindView(R.id.tv_address)
     TextView tv_address;
@@ -246,6 +252,10 @@ public class DetailFragment extends Fragment {
                 EventBus.getDefault().post(new ReplaceFragmentEvent(new ComFragment(), true));
             }
         });
+
+
+
+
         return view;
     }
 
@@ -270,8 +280,8 @@ public class DetailFragment extends Fragment {
         tv_money.setText(gameRoom.getMoney());
         tv_rate.setText(gameRoom.getRate()+"");
         if(gameRoom.getKhuyenmai()!=null){
-            vv.setVisibility(View.VISIBLE);
-            tv_khuyenmai.setVisibility(View.VISIBLE);
+            cv.setVisibility(View.VISIBLE);
+            tv_khuyenmai.setText(gameRoom.getKhuyenmai());
         }
         if(!gameRoom.isCanFood()){
             iv_food.setImageResource(R.drawable.ic_noplate_fork_and_knife);

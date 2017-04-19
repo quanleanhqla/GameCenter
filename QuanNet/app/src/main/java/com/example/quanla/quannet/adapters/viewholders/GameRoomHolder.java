@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.quanla.quannet.R;
 import com.example.quanla.quannet.database.models.GameRoom;
+import com.lid.lib.LabelTextView;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -36,6 +37,8 @@ public class GameRoomHolder extends RecyclerView.ViewHolder {
     ImageView ivFood;
     @BindView(R.id.rtb_map)
     RatingBar rtb;
+    @BindView(R.id.liv)
+    LabelTextView liv;
     public ImageView getImgPhoto() {
         return imgPhoto;
     }
@@ -71,5 +74,7 @@ public class GameRoomHolder extends RecyclerView.ViewHolder {
         else ivPark.setImageResource(R.drawable.ic_noparking_sign_);
         if(gameRoom.isCanFood()) ivFood.setImageResource(R.drawable.ic_food);
         else ivFood.setImageResource(R.drawable.ic_noplate_fork_and_knife);
+        if(gameRoom.getKhuyenmai()!=null) liv.setVisibility(View.VISIBLE);
+        else liv.setVisibility(View.INVISIBLE);
     }
 }

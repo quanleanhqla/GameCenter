@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.example.quanla.quannet.R;
 import com.example.quanla.quannet.database.DbContextHot;
+import com.example.quanla.quannet.database.DbSale;
 import com.example.quanla.quannet.database.models.GameRoom;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -45,6 +46,7 @@ public class InitialActivity extends AppCompatActivity {
 //                    float km = mLastLocation.distanceTo(dest);
 //                    gameRoom.setKm(km);
                     DbContextHot.instance.add(gameRoom);
+                    if(gameRoom.getKhuyenmai()!=null) DbSale.instance.add(gameRoom);
                 }
 //                for (GameRoom gameRoom : DbContextHot.instance.getAllRooms())
 //                    databaseReference.child("comment").child(gameRoom.getTitle()).push().setValue(new Comments("0","0"));

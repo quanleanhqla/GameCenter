@@ -42,6 +42,7 @@ import com.example.quanla.quannet.events.ReplaceFragmentEvent;
 import com.example.quanla.quannet.fragments.HotFragment;
 import com.example.quanla.quannet.fragments.MapFragment;
 import com.example.quanla.quannet.fragments.NewFragment;
+import com.example.quanla.quannet.fragments.SaleFragment;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -151,7 +152,8 @@ public class MainActivity extends AppCompatActivity
             replaceFragment(hotFragment, true);
 
         } else if (id == R.id.sale) {
-
+            SaleFragment saleFragment = new SaleFragment();
+            replaceFragment(saleFragment, true);
         } else if (id == R.id.newone) {
             NewFragment newFragment = new NewFragment();
             replaceFragment(newFragment, true);

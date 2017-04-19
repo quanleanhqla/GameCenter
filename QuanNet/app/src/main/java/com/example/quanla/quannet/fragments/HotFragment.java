@@ -47,7 +47,7 @@ import static android.content.Context.LOCATION_SERVICE;
  * Created by QuanLA on 3/19/2017.
  */
 
-public class HotFragment extends Fragment implements LocationListener {
+public class HotFragment extends Fragment{
     ProgressDialog progressDialog;
     private final String TAG = "jqk";
 
@@ -56,7 +56,6 @@ public class HotFragment extends Fragment implements LocationListener {
     final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference = firebaseDatabase.getReference();
     private HotAdapter hotAdapter;
-    private Location mLastLocation;
 
     @BindView(R.id.rv_hot)
     RecyclerView rvHot;
@@ -70,9 +69,6 @@ public class HotFragment extends Fragment implements LocationListener {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_hot, container, false);
         ButterKnife.bind(this, view);
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            checkLocationPermission();
-        }
 
 
         if(getActivity() instanceof MainActivity) {
@@ -141,41 +137,7 @@ public class HotFragment extends Fragment implements LocationListener {
         EventBus.getDefault().unregister(this);
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
-        mLastLocation = location;
-        Log.d(TAG, "1");
-    }
-
-    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
-    public boolean checkLocationPermission(){
-        if (ContextCompat.checkSelfPermission(this.getContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // Asking user if explanation is needed
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this.getActivity(),
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-
-                //Prompt the user once explanation has been shown
-                ActivityCompat.requestPermissions(this.getActivity(),
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_LOCATION);
 
 
-            } else {
-                // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(this.getActivity(),
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_LOCATION);
-            }
-            return false;
-        } else {
-            return true;
-        }
-    }
+
 }
