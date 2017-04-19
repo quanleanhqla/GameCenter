@@ -79,7 +79,7 @@ public class HotFragment extends Fragment{
         progressDialog.setMessage("Loading...");
         progressDialog.show();
 
-        MainActivity.logo.setVisibility(View.INVISIBLE);
+        //MainActivity.logo.setVisibility(View.INVISIBLE);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

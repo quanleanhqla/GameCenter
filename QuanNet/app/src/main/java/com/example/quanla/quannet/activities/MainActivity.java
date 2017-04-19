@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity
 
 
         logo = (ImageView) findViewById(R.id.logo) ;
+        logo.setVisibility(View.GONE);
         searchView = (SearchView) findViewById(R.id.search) ;
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

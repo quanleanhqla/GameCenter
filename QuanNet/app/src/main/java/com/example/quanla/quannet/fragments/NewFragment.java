@@ -69,7 +69,7 @@ public class NewFragment extends Fragment {
             ((MainActivity) getActivity()).getSupportActionBar().setTitle("Mới mở cửa");
         }
 
-        MainActivity.logo.setVisibility(View.INVISIBLE);
+        //MainActivity.logo.setVisibility(View.INVISIBLE);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

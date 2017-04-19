@@ -16,27 +16,6 @@
         android:src="@drawable/ls"
         android:layout_weight="0.80" />
 
-    <TextView
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        android:textSize="30dp"
-        android:layout_marginTop="105dp"
-        android:layout_marginLeft="50dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="Cứu Nét Pro"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
-    <TextView
-        android:textColor="#FFFFFF"
-        android:textStyle="italic"
-        android:textSize="20dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginLeft="50dp"
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="http://techkids.vn/" />
 
 </RelativeLayout>

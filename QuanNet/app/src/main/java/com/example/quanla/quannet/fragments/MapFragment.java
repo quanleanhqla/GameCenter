@@ -367,7 +367,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickList
             }
         }
         else {
-            MainActivity.logo.setVisibility(View.VISIBLE);
+            //MainActivity.logo.setVisibility(View.VISIBLE);
             if(mMap!=null) {
                 for (final com.example.quanla.quannet.database.models.GameRoom l : DbContextHot.instance.getAllRooms()) {
                     Location dest = new Location(l.getTitle());
@@ -468,7 +468,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickList
         inflater.inflate(R.menu.seach_menu, menu);
         MenuItem searchItem = menu.findItem(R.id.mn_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setBackgroundColor(getResources().getColor(R.color.dcm));
+        //searchView.setBackgroundColor(getResources().getColor(R.color.dcm));
         searchView.setSuggestionsAdapter(cursorAdapter);
 
         searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {

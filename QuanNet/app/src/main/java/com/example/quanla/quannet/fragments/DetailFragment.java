@@ -159,7 +159,7 @@ public class DetailFragment extends Fragment {
             }
         });
 
-        MainActivity.logo.setVisibility(View.INVISIBLE);
+        //MainActivity.logo.setVisibility(View.INVISIBLE);
         arrayList = new ArrayList<>();
         fm = getActivity().getSupportFragmentManager();
         editNameDialogFragment = BlankFragment.newInstance("Đăng nhập");

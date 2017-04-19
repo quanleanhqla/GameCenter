@@ -69,7 +69,7 @@ public class ComFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_com, container, false);
         ButterKnife.bind(this, view);
 
-        MainActivity.logo.setVisibility(View.INVISIBLE);
+        //MainActivity.logo.setVisibility(View.INVISIBLE);
         computerAdapter = new ComputerAdapter();
         rv.setAdapter(computerAdapter);
         rv.setLayoutManager(new GridLayoutManager(this.getContext(), 5));

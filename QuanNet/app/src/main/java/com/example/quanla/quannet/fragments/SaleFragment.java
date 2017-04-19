@@ -49,7 +49,7 @@ public class SaleFragment extends Fragment {
             ((MainActivity) getActivity()).getSupportActionBar().setTitle("Phòng máy khuyến mại");
         }
 
-        MainActivity.logo.setVisibility(View.INVISIBLE);
+        //MainActivity.logo.setVisibility(View.INVISIBLE);
 
         hotAdapter = new SaleAdapter();
         hotAdapter.setContext(this.getContext());
