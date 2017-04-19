@@ -40,6 +40,7 @@ import com.example.quanla.quannet.database.models.GameRoom;
 import com.example.quanla.quannet.events.ActivityReplaceEvent;
 import com.example.quanla.quannet.events.DrawSearchEvent;
 import com.example.quanla.quannet.events.FromInfoEvent;
+import com.example.quanla.quannet.events.GameEvent;
 import com.example.quanla.quannet.events.MoveToMap;
 import com.example.quanla.quannet.events.ReplaceFragmentEvent;
 import com.google.android.gms.common.ConnectionResult;
@@ -108,6 +109,8 @@ public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickList
         mMapView.onCreate(savedInstanceState);
 
         mMapView.onResume();
+
+
 
         try {
             MapsInitializer.initialize(getActivity().getApplicationContext());
@@ -351,7 +354,6 @@ public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickList
         start.setLatitude(mLatitude);
         start.setLongitude(mLongitude);
         if(moveToMap==MoveToMap.FROMDETAIL){
-
             if(mMap!=null) {
                 Location dest = new Location(gameRoom.getTitle());
                 dest.setLatitude(gameRoom.getLatitude());
@@ -365,6 +367,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickList
             }
         }
         else {
+            MainActivity.logo.setVisibility(View.VISIBLE);
             if(mMap!=null) {
                 for (final com.example.quanla.quannet.database.models.GameRoom l : DbContextHot.instance.getAllRooms()) {
                     Location dest = new Location(l.getTitle());
@@ -465,6 +468,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickList
         inflater.inflate(R.menu.seach_menu, menu);
         MenuItem searchItem = menu.findItem(R.id.mn_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setBackgroundColor(getResources().getColor(R.color.dcm));
         searchView.setSuggestionsAdapter(cursorAdapter);
 
         searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
@@ -510,6 +514,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickList
 
 
     }
+
     private void populateAdapter(String query) {
         final MatrixCursor c = new MatrixCursor(new String[]{ BaseColumns._ID, "quannet" });
         for (int i = 0; i< allName.length; i++) {
@@ -532,4 +537,5 @@ public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickList
 //
 //        return super.onOptionsItemSelected(item);
 //    }
+
 }

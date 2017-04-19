@@ -104,9 +104,6 @@ public class DetailFragment extends Fragment {
     @BindView(R.id.tv_momey)
     TextView tv_money;
 
-    @BindView(R.id.vv)
-    View vv;
-
     @BindView(R.id.tv_khuyenmai)
     TextView tv_khuyenmai;
 
@@ -162,6 +159,7 @@ public class DetailFragment extends Fragment {
             }
         });
 
+        MainActivity.logo.setVisibility(View.INVISIBLE);
         arrayList = new ArrayList<>();
         fm = getActivity().getSupportFragmentManager();
         editNameDialogFragment = BlankFragment.newInstance("Đăng nhập");
@@ -380,8 +378,8 @@ public class DetailFragment extends Fragment {
         tv_money.setText(gameRoom.getMoney());
         tv_rate.setText(gameRoom.getRate()+"");
         if(gameRoom.getKhuyenmai()!=null){
-            vv.setVisibility(View.VISIBLE);
-            tv_khuyenmai.setVisibility(View.VISIBLE);
+            cv.setVisibility(View.VISIBLE);
+            tv_khuyenmai.setText(gameRoom.getKhuyenmai());
         }
         if(!gameRoom.isCanFood()){
             iv_food.setImageResource(R.drawable.ic_noplate_fork_and_knife);

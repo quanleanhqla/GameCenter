@@ -73,7 +73,15 @@ public class MainActivity extends AppCompatActivity
 
     private static final String TAG = "MainActivity";
     private SearchView searchView;
-    public ImageView logo;
+    static public ImageView logo;
+
+    public static ImageView getLogo() {
+        return logo;
+    }
+
+    public static void setLogo(ImageView logo) {
+        MainActivity.logo = logo;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +93,6 @@ public class MainActivity extends AppCompatActivity
 
 
         logo = (ImageView) findViewById(R.id.logo) ;
-        logo.setVisibility(View.INVISIBLE);
         searchView = (SearchView) findViewById(R.id.search) ;
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -146,7 +153,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.near) {
-            // Handle the camera action
+
         } else if (id == R.id.top) {
             HotFragment hotFragment = new HotFragment();
             replaceFragment(hotFragment, true);
@@ -195,6 +202,7 @@ public class MainActivity extends AppCompatActivity
     @Subscribe
     public void drawSearch(DrawSearchEvent drawSearchEvent){
         searchView.setVisibility(View.VISIBLE);
+        //logo.setVisibility(View.GONE);
         searchView.setFocusable(true);
         searchView.setIconified(false);
 

@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.quanla.quannet.R;
+import com.example.quanla.quannet.activities.MainActivity;
 import com.example.quanla.quannet.adapters.ComputerAdapter;
 import com.example.quanla.quannet.database.models.GameRoom;
 import com.example.quanla.quannet.events.ActivityReplaceEvent;
@@ -68,6 +69,7 @@ public class ComFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_com, container, false);
         ButterKnife.bind(this, view);
 
+        MainActivity.logo.setVisibility(View.INVISIBLE);
         computerAdapter = new ComputerAdapter();
         rv.setAdapter(computerAdapter);
         rv.setLayoutManager(new GridLayoutManager(this.getContext(), 5));
