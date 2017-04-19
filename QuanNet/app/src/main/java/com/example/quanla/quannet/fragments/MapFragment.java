@@ -4,15 +4,22 @@ package com.example.quanla.quannet.fragments;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.CursorAdapter;
+import android.support.v4.widget.SimpleCursorAdapter;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -65,6 +72,10 @@ import java.util.List;
  */
 public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickListener, RoutingListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
+    String[] allName = {"Playdota Stadium", "Cybox Game Center", "Vikings Gaming", "Pegasus Club Center","GameHome",
+            "Gaming House","Imba eSports Stadium","Monaco Game","Colosseum Gaming Center","Only One Airport Gaming",
+            "Epic Gaming Center","Game Vip","G5 E-Sport Center","Moon Game", "Nhiệt Game", "Royal Gaming",
+            "Arena Gaming Center","Cyzone","H3 Cyber Gaming","Clan 105"};
 
     private GoogleMap mMap;
     GoogleApiClient mGoogleApiClient;
@@ -78,7 +89,8 @@ public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickList
     private double mLatitude;
     private double mLongitude;
     private final String TAG = "Test";
-
+    private SimpleCursorAdapter cursorAdapter;
+    private String suggestionSelecect;
     MapView mMapView;
 
     public MapFragment() {
@@ -102,8 +114,15 @@ public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickList
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
+        //khoi tao adapter cho suggest
+        final String[] from = new String[] {"quannet"};
+        final int[] to = new int[] {android.R.id.text1};
+        cursorAdapter = new SimpleCursorAdapter(getActivity(),
+                android.R.layout.simple_list_item_1,
+                null,
+                from,
+                to,
+                CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         final Context context = this.getContext();
 
         mMapView.getMapAsync(new OnMapReadyCallback() {
@@ -444,7 +463,64 @@ public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickList
         // Do something that differs the Activity's menu here
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.seach_menu, menu);
+        MenuItem searchItem = menu.findItem(R.id.mn_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setSuggestionsAdapter(cursorAdapter);
 
+        searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
+            @Override
+            public boolean onSuggestionSelect(int position) {
+
+                return false;
+            }
+
+            @Override
+            public boolean onSuggestionClick(int position) {
+                CursorAdapter c = searchView.getSuggestionsAdapter();
+
+                Cursor cursor = (Cursor)     searchView.getSuggestionsAdapter().getItem(position);
+                suggestionSelecect = cursor.getString(1);
+
+                Log.d(TAG, String.format("onSuggestionClick: %s", suggestionSelecect));
+                searchView.setQuery( suggestionSelecect,false);
+                for (GameRoom gameRoom : DbContextHot.instance.getAllRooms()){
+                    if (gameRoom.getTitle().toLowerCase().equals(suggestionSelecect.toLowerCase())) {
+                        EventBus.getDefault().postSticky(new FromInfoEvent(gameRoom));
+                        EventBus.getDefault().post(new ReplaceFragmentEvent(new DetailFragment(), true));
+                    }
+                }
+                return false;
+
+            }
+        });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                populateAdapter(newText);
+                return false;
+            }
+        });
+
+
+    }
+    private void populateAdapter(String query) {
+        final MatrixCursor c = new MatrixCursor(new String[]{ BaseColumns._ID, "quannet" });
+        for (int i = 0; i< allName.length; i++) {
+            if (allName[i].toLowerCase().startsWith(query.toLowerCase()))
+                c.addRow(new Object[] {i,allName[i]});
+            for (String s : DbContextHot.instance.getAllNames())
+                Log.d(TAG, String.format("populateAdapter:%s ", s));
+
+        }
+        Log.d(TAG, "populateAdapter: 1");
+        cursorAdapter.changeCursor(c);
     }
 
 //    @Override

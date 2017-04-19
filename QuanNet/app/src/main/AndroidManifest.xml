@@ -17,7 +17,7 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo_gaming_finder_2_red"
-        android:label="QuanGame"
+        android:label="Gaming Finder"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
 

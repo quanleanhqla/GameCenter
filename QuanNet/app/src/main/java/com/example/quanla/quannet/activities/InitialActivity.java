@@ -9,6 +9,7 @@ import com.example.quanla.quannet.R;
 import com.example.quanla.quannet.database.DbContextHot;
 import com.example.quanla.quannet.database.DbSale;
 import com.example.quanla.quannet.database.models.GameRoom;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,31 +30,26 @@ public class InitialActivity extends AppCompatActivity {
         setContentView(R.layout.activity_initial);
 
         Log.d(TAG, "DCM CHUNG MAY");
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.child("hot").addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-//                GameRoom gameRoom = dataSnapshot.child("360 Game").getValue(GameRoom.class);
-//                GameRoom gameRoom1 = dataSnapshot.child("Auto Game").getValue(GameRoom.class);
-//                DbContextHot.instance.add(gameRoom);
-//                DbContextHot.instance.add(gameRoom1);
-                for(int i=0; i<allName.length; i++){
-                    GameRoom gameRoom = dataSnapshot.child("hot").child(allName[i]).getValue(GameRoom.class);
-                    Log.d(TAG, String.format("DCM: %s", gameRoom));
-//                    Location dest = new Location("Dest");
-//                    dest.setLatitude(gameRoom.getLatitude());
-//                    dest.setLongitude(gameRoom.getLongitude());
-//                    float km = mLastLocation.distanceTo(dest);
-//                    gameRoom.setKm(km);
-                    DbContextHot.instance.add(gameRoom);
-                    if(gameRoom.getKhuyenmai()!=null) DbSale.instance.add(gameRoom);
-                }
-//                for (GameRoom gameRoom : DbContextHot.instance.getAllRooms())
-//                    databaseReference.child("comment").child(gameRoom.getTitle()).push().setValue(new Comments("0","0"));
-                Log.d(TAG, String.format("%s", dataSnapshot.child("hot").child("Playdota Stadium").getValue(GameRoom.class)));
-                Log.d(TAG, (String.format("%s", DbContextHot.instance.getAllRooms().get(0).toString())));
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                GameRoom gameRoom = dataSnapshot.getValue(GameRoom.class);
+                DbContextHot.instance.add(gameRoom);
                 startActivity(new Intent(InitialActivity.this, MainActivity.class));
+                if(gameRoom.getKhuyenmai()!=null) DbSale.instance.add(gameRoom);
+            }
 
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
             }
 
@@ -62,6 +58,7 @@ public class InitialActivity extends AppCompatActivity {
 
             }
         });
+        startActivity(new Intent(InitialActivity.this, MainActivity.class));
     }
 
     @Override
