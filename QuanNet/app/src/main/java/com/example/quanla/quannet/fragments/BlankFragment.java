@@ -168,7 +168,7 @@ public class BlankFragment extends DialogFragment implements GoogleApiClient.OnC
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-
+        if (mGoogleApiClient == null)
         mGoogleApiClient = new GoogleApiClient.Builder(this.getContext())
                 .enableAutoManage(this.getActivity() , this )
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
