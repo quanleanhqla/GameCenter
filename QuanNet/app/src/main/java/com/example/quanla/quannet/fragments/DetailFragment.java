@@ -18,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -200,14 +201,15 @@ public class DetailFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(FirebaseAuth.getInstance().getCurrentUser() !=null)
-                comments = new Comments(FirebaseAuth.getInstance().getCurrentUser().getDisplayName(),s.toString(),FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().toString());
-                Log.d(TAG, "afterTextChanged: ");
-            }
+
+                          }
         });
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getActivity().getWindow().setSoftInputMode(
+                        WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+                );
                 try {
                     comments = new Comments(FirebaseAuth.getInstance().getCurrentUser().getDisplayName(),etcmt.getText().toString(),FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().toString());
                     if (comments != null && FirebaseAuth.getInstance().getCurrentUser() != null) {
@@ -223,7 +225,7 @@ public class DetailFragment extends Fragment {
                                 }
                             }
                         });
-                        DbContextHot.instance.addComment(comments);
+
                     }
                     etcmt.setText(null);
                 } catch (Exception e) {
@@ -303,7 +305,7 @@ public class DetailFragment extends Fragment {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Comments comments = dataSnapshot.getValue(Comments.class);
-                if (comments.getUri() != null) DbContextHot.instance.addComment(comments);
+                if (comments.getUri() != null&& comments.getComment()!=null) DbContextHot.instance.addComment(comments);
                 Log.d(TAG, String.format("onChildAdded: %s", dataSnapshot.getValue(Comments.class)));
                 commentAdapter.notifyDataSetChanged();
                 Log.d(TAG, String.format("replace: %s", DbContextHot.instance.comments.size()));
